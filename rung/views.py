@@ -2,28 +2,26 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .models import Menu, AddOn_food, AddOn_drink, Order, OrderItem, discount_coupon, contact_us
-from .serializer import MenuSerializer, AddOnFoodSerializer, AddOnDrinkSerializer, OrderSerializer, DiscountCouponSerializer, ContactUsSerializer
+from .models import Menu, AddOn_food, AddOn_drink, Order, OrderItem, discount_coupon, contact_us,Addon
+from .serializer import MenuSerializerView, AddOnFoodSerializer, AddOnDrinkSerializer, OrderSerializer, DiscountCouponSerializer, ContactUsSerializer
 
 @api_view(['GET'])
 def menu_list(request):
     # if request.method == 'GET':
         menus = Menu.objects.all()
-        serializer = MenuSerializer(menus, many=True)
+        serializer = MenuSerializerView(menus, many=True)
         return Response(serializer.data)
 @api_view(['GET'])
 def add_on_food_list(request):
-    # if request.method == 'GET':
-        add_on_foods = AddOn_food.objects.all()
-        serializer = AddOnFoodSerializer(add_on_foods, many=True)
-        return Response(serializer.data)
+    add_on_food = AddOn_food.objects.all()
+    serializer = AddOnFoodSerializer(add_on_food, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def add_on_drink_list(request):
-    # if request.method == 'GET':
-        add_on_drinks = AddOn_drink.objects.all()
-        serializer = AddOnDrinkSerializer(add_on_drinks, many=True)
-        return Response(serializer.data)
+    add_on_drink = AddOn_drink.objects.all()
+    serializer = AddOnDrinkSerializer(add_on_drink, many=True)
+    return Response(serializer.data)
 
 @api_view(['POST', 'GET'])
 def create_order(request):
@@ -54,3 +52,5 @@ def create_contact_us(request):
         serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+   
