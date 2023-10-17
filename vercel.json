@@ -1,0 +1,12 @@
+{
+    "builds":[{
+        "src": "food/wsgi.py",
+        "use": "@vercel/python",
+        "config": { "maxLambdaSize": "15mb","runtime":"python3.9" }
+
+    }],
+    "routes": [
+        { "handle": "filesystem" },
+        { "src": "/(.*)", "dest": "food/wsgi.py" }
+    ]
+}
