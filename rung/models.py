@@ -5,7 +5,8 @@ class Menu(models.Model):
     title_image = models.ImageField(upload_to='menu_title_images/', null=True, blank=True)
     name = models.CharField(max_length=200)
     price = models.FloatField(default=0)
-    description = models.CharField(max_length=200)
+    description_1 = models.CharField(max_length=200)
+    description_2 = models.CharField(max_length=200,null=True)
     
     def __str__(self):
         return self.name

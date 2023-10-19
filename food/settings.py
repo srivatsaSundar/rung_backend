@@ -78,13 +78,23 @@ WSGI_APPLICATION = 'food.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'wavivuxe_mrrung',
+        'USER': 'wavivuxe_rung',
+        'PASSWORD': 'mrrung@123',
+        'HOST': 'wavivuxe.mysql.db.hostpoint.ch',  # Replace with your actual database host
+        'PORT': '3306',  # MySQL's default port
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
