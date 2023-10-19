@@ -5,6 +5,7 @@ from rest_framework import status
 from .models import Menu, AddOn_food, AddOn_drink, Order, OrderItem, discount_coupon, contact_us,Addon
 from .serializer import MenuSerializerView, AddOnFoodSerializer, AddOnDrinkSerializer, OrderSerializer, DiscountCouponSerializer, ContactUsSerializer
 
+
 @api_view(['GET'])
 def menu_list(request):
     # if request.method == 'GET':
