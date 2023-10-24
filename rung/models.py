@@ -6,7 +6,7 @@ class Menu(models.Model):
     name = models.CharField(max_length=200)
     price = models.FloatField(default=0)
     description_1 = models.CharField(max_length=200)
-    description_2 = models.CharField(max_length=200,null=True)
+    description_2 = models.CharField(max_length=200,null=True,blank=True)
     
     def __str__(self):
         return self.name
@@ -18,6 +18,15 @@ class Menu(models.Model):
                 self.title_image = existing_menu.title_image
         super().save(*args, **kwargs)
 
+class Menu_germen(models.Model):
+    title_name = models.CharField(max_length=200, null=True, blank=True)
+    name = models.CharField(max_length=200,null=True)
+    price = models.FloatField(default=0,null=True)
+    description_1 = models.CharField(max_length=200,null=True)
+    description_2 = models.CharField(max_length=200,null=True,blank=True)
+    
+    def __str__(self):
+        return self.name
 class Addon(models.Model):
     name = models.CharField(max_length=200)
     price = models.IntegerField(default=0)
@@ -27,6 +36,7 @@ class Addon(models.Model):
 
 class AddOn_food(models.Model):
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+    menu_germen = models.ForeignKey(Menu_germen, on_delete=models.CASCADE,null=True)
     food = models.ForeignKey(Addon, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -34,6 +44,7 @@ class AddOn_food(models.Model):
 
 class AddOn_drink(models.Model):
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+    menu_germen = models.ForeignKey(Menu_germen, on_delete=models.CASCADE,null=True)
     drink = models.ForeignKey(Addon, on_delete=models.CASCADE)
 
     def __str__(self):

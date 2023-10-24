@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Menu, AddOn_food, AddOn_drink, Order, discount_coupon, contact_us,Addon
+from .models import Menu, AddOn_food, AddOn_drink, Order, discount_coupon, contact_us,Addon,Menu_germen
 
 class MenuSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,6 +9,16 @@ class MenuSerializer(serializers.ModelSerializer):
 class MenuSerializerView(serializers.ModelSerializer):
     class Meta:
         model = Menu
+        fields = '__all__'
+
+class Menu_germenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Menu_germen
+        fields = ['name'  ]
+
+class Menu_germenSerializerView(serializers.ModelSerializer):
+    class Meta:
+        model = Menu_germen
         fields = '__all__'
 class AddonSerializer(serializers.ModelSerializer):
     class Meta:

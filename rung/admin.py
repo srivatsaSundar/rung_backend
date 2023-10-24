@@ -1,7 +1,8 @@
 from django.contrib import admin
 from . import models
-# Register your models here.
+
 admin.site.register(models.Menu)
+admin.site.register(models.Menu_germen)
 admin.site.register(models.AddOn_food)
 admin.site.register(models.AddOn_drink)
 admin.site.register(models.Order)
