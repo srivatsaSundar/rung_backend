@@ -11,12 +11,12 @@ class MenuSerializerView(serializers.ModelSerializer):
         model = Menu
         fields = '__all__'
 
-class Menu_germenSerializer(serializers.ModelSerializer):
+class MenuGermenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Menu_germen
         fields = ['name'  ]
 
-class Menu_germenSerializerView(serializers.ModelSerializer):
+class MenuGermenSerializerView(serializers.ModelSerializer):
     class Meta:
         model = Menu_germen
         fields = '__all__'
@@ -27,6 +27,7 @@ class AddonSerializer(serializers.ModelSerializer):
 
 class AddOnFoodSerializer(serializers.ModelSerializer):
     menu = MenuSerializer()
+    menu_germen = MenuGermenSerializer()
     food = AddonSerializer()
 
     class Meta:
@@ -35,6 +36,7 @@ class AddOnFoodSerializer(serializers.ModelSerializer):
 
 class AddOnDrinkSerializer(serializers.ModelSerializer):
     menu = MenuSerializer()
+    menu_germen = MenuGermenSerializer()
     drink = AddonSerializer()
 
     class Meta:

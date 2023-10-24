@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from .models import Menu, AddOn_food, AddOn_drink, Order, OrderItem, discount_coupon, contact_us,Addon,Menu_germen
-from .serializer import MenuSerializerView, AddOnFoodSerializer, AddOnDrinkSerializer, OrderSerializer, DiscountCouponSerializer, ContactUsSerializer,Menu_germenSerializerView
+from .serializer import MenuSerializerView, AddOnFoodSerializer, AddOnDrinkSerializer, OrderSerializer, DiscountCouponSerializer, ContactUsSerializer,MenuGermenSerializerView
 
 
 @api_view(['GET'])
@@ -14,10 +14,10 @@ def menu_list(request):
         return Response(serializer.data)
 
 @api_view(['GET'])
-def menu_list(request):
+def menu_list_germen(request):
     # if request.method == 'GET':
         menus_germen = Menu_germen.objects.all()
-        serializer = Menu_germenSerializerView(menus_germen, many=True)
+        serializer = MenuGermenSerializerView(menus_germen, many=True)
         return Response(serializer.data)
 
 
