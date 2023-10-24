@@ -1,0 +1,14 @@
+version: '3.2'
+
+services:
+  web:
+    build: ./
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    environment:
+      - MYSQL_DATABASE=wavivuxe_mrrung
+      - MYSQL_USER=wavivuxe_rung
+      - MYSQL_PASSWORD=mrrung@123
+      - MYSQL_HOST=wavivuxe.mysql.db.hostpoint.ch
+      - MYSQL_PORT=3306
