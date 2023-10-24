@@ -16,8 +16,8 @@ def menu_list(request):
 @api_view(['GET'])
 def menu_list(request):
     # if request.method == 'GET':
-        menus = Menu_germen.objects.all()
-        serializer = Menu_germenSerializerView(menus, many=True)
+        menus_germen = Menu_germen.objects.all()
+        serializer = Menu_germenSerializerView(menus_germen, many=True)
         return Response(serializer.data)
 
 
