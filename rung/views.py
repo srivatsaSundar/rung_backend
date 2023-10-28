@@ -16,7 +16,7 @@ def menu_list(request):
         add_on_food_serializer = AddOnFoodSerializer(add_on_food, many=True)
         add_on_drink_serializer = AddOnDrinkSerializer(add_on_drink, many=True)
         data = {
-        'menus': serializer.data,
+        'menu': serializer.data,
         'add_on_food': add_on_food_serializer.data,
         'add_on_drink': add_on_drink_serializer.data
         }
@@ -34,7 +34,7 @@ def menu_list_germen(request):
         add_on_drink_serializer = AddOnDrinkSerializer(add_on_drink, many=True)
 
         data = {
-        'menus': menu_serializer.data,
+        'menu': menu_serializer.data,
         'add_on_food': add_on_food_serializer.data,
         'add_on_drink': add_on_drink_serializer.data
         }
