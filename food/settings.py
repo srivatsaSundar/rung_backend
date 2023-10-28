@@ -149,10 +149,11 @@ CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    "https://front-end-rung.vercel.app",
+    "https://front-end-rung.vercel.app/",
 ]
 
 CORS_ALLOW_METHODS = [
     "GET",
     "OPTIONS",  # This is important to handle preflight requests
 ]
+CORS_ALLOW_CREDENTIALS = True
