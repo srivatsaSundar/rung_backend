@@ -10,15 +10,35 @@ from .serializer import MenuSerializerView, AddOnFoodSerializer, AddOnDrinkSeria
 def menu_list(request):
     # if request.method == 'GET':
         menus = Menu.objects.all()
+        add_on_food = AddOn_food.objects.all()
+        add_on_drink = AddOn_drink.objects.all()
         serializer = MenuSerializerView(menus, many=True)
-        return Response(serializer.data)
+        add_on_food_serializer = AddOnFoodSerializer(add_on_food, many=True)
+        add_on_drink_serializer = AddOnDrinkSerializer(add_on_drink, many=True)
+        data = [
+        'menu': serializer.data,
+        'add_on_food': add_on_food_serializer.data,
+        'add_on_drink': add_on_drink_serializer.data
+        ]
+        return Response(data)
 
 @api_view(['GET'])
 def menu_list_germen(request):
     # if request.method == 'GET':
         menus_germen = Menu_germen.objects.all()
-        serializer = MenuGermenSerializerView(menus_germen, many=True)
-        return Response(serializer.data)
+        add_on_food = AddOn_food.objects.all()
+        add_on_drink = AddOn_drink.objects.all()
+
+        menu_serializer = MenuGermenSerializerView(menus_germen, many=True)
+        add_on_food_serializer = AddOnFoodSerializer(add_on_food, many=True)
+        add_on_drink_serializer = AddOnDrinkSerializer(add_on_drink, many=True)
+
+        data = [
+        'menu': menu_serializer.data,
+        'add_on_food': add_on_food_serializer.data,
+        'add_on_drink': add_on_drink_serializer.data
+        ]
+        return Response(data)
 
 @api_view(['GET'])
 def add_on_food_list(request):
