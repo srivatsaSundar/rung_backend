@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-y048*3@_86f$x6o)yx9clfasi-!@l(k+hmaee@atvblqg28=&6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS =["*"]
+ALLOWED_HOSTS =["*",'https://front-end-rung.vercel.app']
 
 
 # Application definition
@@ -157,3 +157,5 @@ CORS_ALLOW_METHODS = [
     "OPTIONS",  # This is important to handle preflight requests
 ]
 CORS_ALLOW_CREDENTIALS = True
+
+Access-Control-Allow-Origin: https://front-end-rung.vercel.app
