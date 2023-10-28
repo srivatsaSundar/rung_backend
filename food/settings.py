@@ -152,10 +152,3 @@ CORS_ALLOWED_ORIGINS = [
     "https://front-end-rung.vercel.app/",
 ]
 
-CORS_ALLOW_METHODS = [
-    "GET",
-    "OPTIONS",  # This is important to handle preflight requests
-]
-CORS_ALLOW_CREDENTIALS = True
-
-Access-Control-Allow-Origin: https://front-end-rung.vercel.app
