@@ -33,7 +33,7 @@ def add_on_drink_list(request):
     serializer = AddOnDrinkSerializer(add_on_drink, many=True)
     return Response(serializer.data)
 
-@api_view(['POST', 'GET'])
+@api_view(['POST'])
 def create_order(request):
         serializer = OrderSerializer(data=request.data)
         if serializer.is_valid():
@@ -63,7 +63,7 @@ def create_contact_us(request):
         return Response(status=status.HTTP_204_NO_CONTENT)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST', 'GET'])
+@api_view(['POST'])
 def user(request):
     if request.method == 'POST':
         serializer = UserSerializer(data=request.data)
