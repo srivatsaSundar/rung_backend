@@ -67,6 +67,7 @@ def create_contact_us(request):
 def user(request):
     if request.method == 'POST':
         data = request.data 
+        print(data)
         try:
             order = Order(
                 person_name=data.get('person_name'),
