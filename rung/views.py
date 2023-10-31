@@ -37,14 +37,7 @@ def add_on_drink_list(request):
 def create_order(request):
         serializer = OrderSerializer(data=request.data)
         if serializer.is_valid():
-            order = serializer.save()
-            for menu_item in request.data['menu_items']:
-                order_item = OrderItem.objects.create(
-                    order=order,
-                    menu_id=menu_item['id'],
-                    quantity=menu_item['quantity']
-                )
-                order_item.save()
+            serializer.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -77,7 +70,8 @@ def user(request):
                 city=data.get('city'),
                 phone_number=data.get('phone_number'),
                 company_name=data.get('company_name'),
-                delivery_option=data.get('delivery_option')
+                delivery_option=data.get('delivery_option'),
+
             )
             order.save()
             return Response(status=status.HTTP_204_NO_CONTENT)

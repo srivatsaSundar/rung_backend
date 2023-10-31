@@ -52,10 +52,6 @@ class AddOn_drink(models.Model):
         return self.drink.name
 
 class Order(models.Model):
-    DELIVERY_CHOICES = [
-        ('Deliver', 'Deliver'),
-        ('Take Away', 'Take Away'),
-    ]
     order_status_choices = [
         ('Pending', 'Pending'),
         ('Confirmed', 'Confirmed'),
@@ -72,7 +68,7 @@ class Order(models.Model):
     city = models.CharField(max_length=200)
     coupon_code = models.CharField(max_length=200, null=True, blank=True)
     total_price = models.IntegerField(default=0)
-    delivery_option = models.CharField(max_length=20, choices=DELIVERY_CHOICES)
+    delivery_option = models.CharField(max_length=20)
     delivery_date = models.DateField(null=True, blank=True)
     delivery_time = models.TimeField(null=True, blank=True)
     remarks = models.TextField(null=True, blank=True)
