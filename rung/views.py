@@ -66,7 +66,7 @@ def create_contact_us(request):
 @api_view(['POST'])
 def user(request):
     if request.method == 'POST':
-        serializer = UserSerializer(data=request.data)
+        serializer = OrderSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
