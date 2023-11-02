@@ -67,7 +67,7 @@ class Order(models.Model):
     postal_code = models.CharField(max_length=200)
     city = models.CharField(max_length=200)
     coupon_code = models.CharField(max_length=200, null=True, blank=True)
-    total_price = models.IntegerField(default=0)
+    total_price = models.FloatField(default=0)
     delivery_option = models.CharField(max_length=20)
     delivery_date = models.DateField(null=True, blank=True)
     delivery_time = models.TimeField(null=True, blank=True)
@@ -81,8 +81,9 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+    menu = models.CharField(max_length=200)
     quantity = models.IntegerField(default=1)
+    cost = models.FloatField(default=0)
 
     def __str__(self):
         return f"{self.menu.name} - Quantity: {self.quantity}"
