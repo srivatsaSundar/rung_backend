@@ -74,20 +74,12 @@ class Order(models.Model):
     remarks = models.TextField(null=True, blank=True)
     order_date = models.DateTimeField(auto_now_add=True)
     order_status = models.CharField(max_length=200, null=True, blank=True, choices=order_status_choices)
-    mail_sent = models.BooleanField(default=False)
     cart= models.CharField(max_length=1000,null=True,blank=True)
+    mail_sent = models.BooleanField(default=False)
     
     def __str__(self):
         return self.person_name
 
-class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    menu = models.CharField(max_length=200)
-    quantity = models.IntegerField(default=1)
-    cost = models.FloatField(default=0)
-
-    def __str__(self):
-        return f"{self.menu.name} - Quantity: {self.quantity}"
 
 class discount_coupon(models.Model):
     coupon_code = models.CharField(max_length=200)
