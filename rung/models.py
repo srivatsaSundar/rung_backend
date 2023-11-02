@@ -74,6 +74,7 @@ class Order(models.Model):
     remarks = models.TextField(null=True, blank=True)
     order_date = models.DateTimeField(auto_now_add=True)
     order_status = models.CharField(max_length=200, null=True, blank=True, choices=order_status_choices)
+    mail_sent = models.BooleanField(default=False)
     
     def __str__(self):
         return self.person_name

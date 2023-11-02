@@ -35,11 +35,11 @@ def add_on_drink_list(request):
 
 @api_view(['POST'])
 def create_order(request):
-        serializer = OrderSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer = OrderSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def discount_coupon_list(request):
@@ -56,24 +56,3 @@ def create_contact_us(request):
         return Response(status=status.HTTP_204_NO_CONTENT)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
-def user(request):
-    if request.method == 'POST':
-        data = request.data 
-        print(data)
-        try:
-            order = Order(
-                person_name=data.get('person_name'),
-                email=data.get('email'),
-                address=data.get('address'),
-                postal_code=data.get('postal_code'),
-                city=data.get('city'),
-                phone_number=data.get('phone_number'),
-                company_name=data.get('company_name'),
-                delivery_option=data.get('delivery_option'),
-
-            )
-            order.save()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        except Exception as e:
-            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
