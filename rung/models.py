@@ -75,6 +75,7 @@ class Order(models.Model):
     order_date = models.DateTimeField(auto_now_add=True)
     order_status = models.CharField(max_length=200, null=True, blank=True, choices=order_status_choices)
     mail_sent = models.BooleanField(default=False)
+    cart= models.CharField(max_length=1000,null=True,blank=True)
     
     def __str__(self):
         return self.person_name
