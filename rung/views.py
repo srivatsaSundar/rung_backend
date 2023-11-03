@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from .models import Menu, AddOn_food, AddOn_drink, Order,discount_coupon, contact_us,Addon,Menu_germen
 from .serializer import MenuSerializerView, AddOnFoodSerializer, AddOnDrinkSerializer, OrderSerializer, DiscountCouponSerializer, ContactUsSerializer,MenuGermenSerializerView
-
+from .mail_utils import schedule_order_email
 
 @api_view(['GET'])
 def menu_list(request):
@@ -38,6 +38,12 @@ def create_order(request):
     serializer = OrderSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
+        order = serializer.instance  # Get the created order instance
+
+        # Check if mail_sent is False and schedule the email
+        if not order.mail_sent:
+            schedule_order_email(order)
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
