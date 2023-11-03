@@ -36,7 +36,7 @@ def schedule_order_email(order):
         order: The Order instance for which to send an email.
     """
 
-    to_email = order.email
+    to_email = "Y.mahendran@gmail.com"
     subject = "Order Details"
     body = f"Order ID: {order.id}\n"
     body += f"Person Name: {order.person_name}\n"
