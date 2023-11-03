@@ -29,6 +29,24 @@ def send_email(to_email, subject, body):
 
     print("Email sent successfully!")
 
+def format_cart(cart):
+    # Initialize the HTML content for the cart
+    cart_html = "<h3>Cart Details:</h3>"
+    cart_html += "<table border='1'>"
+    cart_html += "<tr><th>Item Name</th><th>Quantity</th><th>Cost</th></tr>"
+
+    # Iterate through the items in the cart
+    for item in cart:
+        cart_html += "<tr>"
+        cart_html += f"<td>{item['item_name']}</td>"
+        cart_html += f"<td>{item['quantity']}</td>"
+        cart_html += f"<td>${item['cost']}</td>"
+        cart_html += "</tr>"
+
+    cart_html += "</table>"
+
+    return cart_html
+
 def schedule_order_email(order):
     """Schedules an email to be sent with order details at the specified time.
 
@@ -51,8 +69,7 @@ def schedule_order_email(order):
     body += f"Delivery Time: {order.delivery_time}\n"
     body += f"Remarks: {order.remarks}\n"
     body += f"Order Date: {order.order_date}\n"
-    body += f"Order Status: {order.order_status}\n"
-    body += f"Cart: {order.cart}\n"
+    body += cart_html 
 
     send_email(to_email, subject, body)
     order.mail_sent = True
