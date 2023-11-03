@@ -46,7 +46,7 @@ def create_order(request):
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    
 @api_view(['GET'])
 def discount_coupon_list(request):
     # if request.method == 'GET':

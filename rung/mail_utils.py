@@ -29,30 +29,31 @@ def send_email(to_email, subject, body):
 
     print("Email sent successfully!")
 
-def schedule_order_email():
-    """Schedules emails for orders with mail_sent set to False."""
-    orders = Order.objects.filter(mail_sent=False)
+def schedule_order_email(order):
+    """Schedules an email to be sent with order details at the specified time.
 
-    for order in orders:
-        to_email = order.email
-        subject = "Order Details"
-        body = f"Order ID: {order.id}\n"
-        body += f"Person Name: {order.person_name}\n"
-        body += f"Company Name: {order.company_name}\n"
-        body += f"Phone Number: {order.phone_number}\n"
-        body += f"Address: {order.address}\n"
-        body += f"Postal Code: {order.postal_code}\n"
-        body += f"City: {order.city}\n"
-        body += f"Coupon Code: {order.coupon_code}\n"
-        body += f"Total Price: {order.total_price}\n"
-        body += f"Delivery Option: {order.delivery_option}\n"
-        body += f"Delivery Date: {order.delivery_date}\n"
-        body += f"Delivery Time: {order.delivery_time}\n"
-        body += f"Remarks: {order.remarks}\n"
-        body += f"Order Date: {order.order_date}\n"
-        body += f"Order Status: {order.order_status}\n"
-        body += f"Cart: {order.cart}\n"
+    Args:
+        order: The Order instance for which to send an email.
+    """
+    to_email = order.email
+    subject = "Order Details"
+    body = f"Order ID: {order.id}\n"
+    body += f"Person Name: {order.person_name}\n"
+    body += f"Company Name: {order.company_name}\n"
+    body += f"Phone Number: {order.phone_number}\n"
+    body += f"Address: {order.address}\n"
+    body += f"Postal Code: {order.postal_code}\n"
+    body += f"City: {order.city}\n"
+    body += f"Coupon Code: {order.coupon_code}\n"
+    body += f"Total Price: {order.total_price}\n"
+    body += f"Delivery Option: {order.delivery_option}\n"
+    body += f"Delivery Date: {order.delivery_date}\n"
+    body += f"Delivery Time: {order.delivery_time}\n"
+    body += f"Remarks: {order.remarks}\n"
+    body += f"Order Date: {order.order_date}\n"
+    body += f"Order Status: {order.order_status}\n"
+    body += f"Cart: {order.cart}\n"
 
-        send_email(to_email, subject, body)
-        order.mail_sent = True
-        order.save()
+    send_email(to_email, subject, body)
+    order.mail_sent = True
+    order.save()
