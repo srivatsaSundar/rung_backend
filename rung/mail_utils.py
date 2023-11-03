@@ -22,7 +22,7 @@ def send_email(to_email, subject, body):
     smtp.starttls()
 
     # Replace the following with your Gmail username and password.
-    smtp.login("srivatsas0503@gmail.com", "xilw sbda ytih dxts")
+    smtp.login("srivatsas0503@gmail.com", "iffw mnvb cfbz fgvh")
 
     smtp.send_message(msg)
     smtp.quit()
