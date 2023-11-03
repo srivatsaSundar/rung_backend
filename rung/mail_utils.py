@@ -53,6 +53,7 @@ def schedule_order_email(order):
     Args:
         order: The Order instance for which to send an email.
     """
+    cart_html = format_cart(order.cart)
     to_email = order.email
     subject = "Order Details"
     body = f"Order ID: {order.id}\n"
