@@ -29,24 +29,13 @@ def send_email(to_email, subject, body):
 
     print("Email sent successfully!")
 
-def format_cart(cart):
-    cart_text = "Cart Details:\n"
-
-    for item in cart:
-        cart_text += f"Item Name: {item['item_name']}\n"
-        cart_text += f"Quantity: {item['quantity']}\n"
-        cart_text += f"Cost: ${item['cost']}\n"
-        cart_text += "\n"
-
-    return cart_text
-
 def schedule_order_email(order):
     """Schedules an email to be sent with order details at the specified time.
 
     Args:
         order: The Order instance for which to send an email.
     """
-    cart_text = format_cart(order.cart)
+
     to_email = order.email
     subject = "Order Details"
     body = f"Order ID: {order.id}\n"
@@ -63,7 +52,7 @@ def schedule_order_email(order):
     body += f"Delivery Time: {order.delivery_time}\n"
     body += f"Remarks: {order.remarks}\n"
     body += f"Order Date: {order.order_date}\n"
-    body += cart_text
+    body += f"Cart: {order.cart}\n"
 
     send_email(to_email, subject, body)
     order.mail_sent = True
