@@ -39,7 +39,7 @@ def schedule_order_email(order):
     subject = "Order Details"
     body = ""
     # Construct the email body based on the database information
-    body = f"**Order ID:** {order.id}\n\n"
+    body += f"**Order ID:** {order.id}\n\n"
     body += f"**Order Details**\n\n"
     body += f"**Lieferung Bestätigte Uhrzeit** {order.delivery_time}\n\n"
     body += f"{order.person_name}\n{order.address}\n{order.postal_code} {order.city}\n"
