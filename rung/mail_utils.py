@@ -50,16 +50,15 @@ def schedule_order_email(order):
   # Add order items
   body += "**Gerichte**\n"
   body += f"Cart: {order.cart}\n"
+  body += f"Total Price: {order.total_price}\n\n"
 #   for item in order.cart:
 #     print(item)
 #     body += f"{item[quantity]}x {item[item_name]} {item[cost]} CHF\n"
 #   body += f"\n**Gesamt {order.total_price} CHF**\n\n"
 
   # Additional information
-  body += f"**V{order.order_date}**\n\n"
+  body += f"**order date{order.order_date}**\n\n"
   body += f"**Wichtig:**\n\n"
-  body += f"- Bestellung ist bezahlt online\n"
-  body += f"- Zahlung Online\n\n"
   body += f"Dies ist keine Rechnung"
 
   send_email(to_email, subject, body)
