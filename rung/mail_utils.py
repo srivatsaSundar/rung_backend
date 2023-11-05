@@ -35,24 +35,25 @@ def schedule_order_email(order):
     Args:
         order: The Order instance for which to send an email.
     """
-
-    to_email = "Y.mahendran@gmail.com"
+    to_email = "vatsasundar0503@gmail.com"
     subject = "Order Details"
-    body = f"Order ID: {order.id}\n"
-    body += f"Person Name: {order.person_name}\n"
-    body += f"Company Name: {order.company_name}\n"
-    body += f"Phone Number: {order.phone_number}\n"
-    body += f"Address: {order.address}\n"
-    body += f"Postal Code: {order.postal_code}\n"
-    body += f"City: {order.city}\n"
-    body += f"Coupon Code: {order.coupon_code}\n"
-    body += f"Total Price: {order.total_price}\n"
-    body += f"Delivery Option: {order.delivery_option}\n"
-    body += f"Delivery Date: {order.delivery_date}\n"
-    body += f"Delivery Time: {order.delivery_time}\n"
-    body += f"Remarks: {order.remarks}\n"
-    body += f"Order Date: {order.order_date}\n"
-    body += f"Cart: {order.cart}\n"
+
+    # Construct the email body based on the database information
+    body = f"Lieferung Bestätigte Uhrzeit {order.delivery_time}\n\n"
+    body += f"{order.person_name}\n{order.address}\n{order.postal_code} {order.city}\n"
+    body += f"Tel. :{order.phone_number}\n\n"
+
+    # Add order items
+    body += "Suppen\n"
+    for item in order.cart.all():
+        body += f"{item.quantity}x {item.product.name} {item.total_price} CHF\n"
+        if item.customization:
+            body += f"- {item.customization}\n"
+    body += f"\nGesamt {order.total_price} CHF\n\n"
+
+    # Additional information
+    body += f"V{order.order_date}\n\nWichtig:\n\nBestellung ist bezahlt online\n\nPayment Online\n\n"
+    body += "Dies ist keine Rechnung"
 
     send_email(to_email, subject, body)
     order.mail_sent = True
