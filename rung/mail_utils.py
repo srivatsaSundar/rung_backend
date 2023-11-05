@@ -36,6 +36,9 @@ def schedule_order_email(order):
     order: The Order instance for which to send an email.
   """
 
+  quantity = "quantity"
+  item_name = "item_name"
+  cost = "cost"
   to_email = "vatsasundar0503@gmail.com"
   subject = "Order Details"
 
@@ -60,4 +63,5 @@ def schedule_order_email(order):
   send_email(to_email, subject, body)
   order.mail_sent = True
   order.save()
+
 
