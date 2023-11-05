@@ -37,9 +37,9 @@ def schedule_order_email(order):
     """
     to_email = "vatsasundar0503@gmail.com"
     subject = "Order Details"
-    body = ""
+    # body = ""
     # Construct the email body based on the database information
-    body += f"**Order ID:** {order.id}\n\n"
+    body = f"**Order ID:** {order.id}\n\n"
     body += f"**Order Details**\n\n"
     body += f"**Lieferung Bestätigte Uhrzeit** {order.delivery_time}\n\n"
     body += f"{order.person_name}\n{order.address}\n{order.postal_code} {order.city}\n"
@@ -47,11 +47,11 @@ def schedule_order_email(order):
 
     # Add order items
     body += "**Gerichte**\n"
-    for item in order.cart:
-        item_name = item["item_name"]
-        quantity = item["quantity"]
-        cost = item["cost"]
-        body += f"Item Name: {item_name}, Quantity: {quantity}, Cost: {cost}\n"
+    # for item in order.cart:
+    #     item_name = item["item_name"]
+    #     quantity = item["quantity"]
+    #     cost = item["cost"]
+    #     body += f"Item Name: {item_name}, Quantity: {quantity}, Cost: {cost}\n"
 
     body += f"**Cart:** {order.cart}\n"
     body += f"\n**Gesamt {order.total_price} CHF**\n\n"
