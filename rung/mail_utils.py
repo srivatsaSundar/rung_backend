@@ -1,6 +1,7 @@
 import email
 import smtplib
 from django.core.mail import send_mail
+from rung.models import Order
 
 def send_email(to_email, subject, body):
     """Sends an email to the specified recipient using the email library.
@@ -29,12 +30,18 @@ def send_email(to_email, subject, body):
 
     print("Email sent successfully!")
 
-def schedule_order_email(order):
+def schedule_order_email(order_id):
     """Schedules an email to be sent with order details at the specified time.
 
     Args:
-        order: The Order instance for which to send an email.
+        order_id: The ID of the Order instance for which to send an email.
     """
+    try:
+        order = Order.objects.get(id=order_id)  # Retrieve the order by ID
+    except Order.DoesNotExist:
+        # Handle the case where the order with the given ID doesn't exist
+        return
+
     to_email = "vatsasundar0503@gmail.com"
     subject = "Order Details"
 
@@ -43,7 +50,7 @@ def schedule_order_email(order):
     body += f"{order.person_name}\n{order.address}\n{order.postal_code} {order.city}\n"
     body += f"Tel. :{order.phone_number}\n\n"
 
-    # Add order items
+    # Assuming that 'cart' is a related field on the Order model, use .all() to retrieve the items
     body += "Suppen\n"
     for item in order.cart.all():
         body += f"{item.quantity}x {item.product.name} {item.total_price} CHF\n"
