@@ -1,7 +1,6 @@
 import email
 import smtplib
 from django.core.mail import send_mail
-from rung.models import Order
 
 def send_email(to_email, subject, body):
     """Sends an email to the specified recipient using the email library.
@@ -30,38 +29,35 @@ def send_email(to_email, subject, body):
 
     print("Email sent successfully!")
 
-def schedule_order_email(order_id):
-    """Schedules an email to be sent with order details at the specified time.
+def schedule_order_email(order):
+  """Schedules an email to be sent with order details at the specified time.
 
-    Args:
-        order_id: The ID of the Order instance for which to send an email.
-    """
-    try:
-        order = Order.objects.get(id=order_id)  # Retrieve the order by ID
-    except Order.DoesNotExist:
-        # Handle the case where the order with the given ID doesn't exist
-        return
+  Args:
+    order: The Order instance for which to send an email.
+  """
 
-    to_email = "vatsasundar0503@gmail.com"
-    subject = "Order Details"
+  to_email = "vatsasundar0503@gmail.com"
+  subject = "Order Details"
 
-    # Construct the email body based on the database information
-    body = f"Lieferung Bestätigte Uhrzeit {order.delivery_time}\n\n"
-    body += f"{order.person_name}\n{order.address}\n{order.postal_code} {order.city}\n"
-    body += f"Tel. :{order.phone_number}\n\n"
+  # Construct the email body based on the database information
+  body = f"**Lieferung Bestätigte Uhrzeit** {order.delivery_time}\n\n"
+  body += f"{order.person_name}\n{order.address}\n{order.postal_code} {order.city}\n"
+  body += f"Tel. : {order.phone_number}\n\n"
 
-    # Assuming that 'cart' is a related field on the Order model, use .all() to retrieve the items
-    body += "Suppen\n"
-    for item in order.cart.all():
-        body += f"{item.quantity}x {item.product.name} {item.total_price} CHF\n"
-        if item.customization:
-            body += f"- {item.customization}\n"
-    body += f"\nGesamt {order.total_price} CHF\n\n"
+  # Add order items
+  body += "**Gerichte**\n"
+  for item in order.cart:
+    body += f"{item['quantity']}x {item['item_name']} {item['cost']} CHF\n"
+  body += f"\n**Gesamt {order.total_price} CHF**\n\n"
 
-    # Additional information
-    body += f"V{order.order_date}\n\nWichtig:\n\nBestellung ist bezahlt online\n\nPayment Online\n\n"
-    body += "Dies ist keine Rechnung"
+  # Additional information
+  body += f"**V{order.order_date}**\n\n"
+  body += f"**Wichtig:**\n\n"
+  body += f"- Bestellung ist bezahlt online\n"
+  body += f"- Zahlung Online\n\n"
+  body += f"Dies ist keine Rechnung"
 
-    send_email(to_email, subject, body)
-    order.mail_sent = True
-    order.save()
+  send_email(to_email, subject, body)
+  order.mail_sent = True
+  order.save()
+

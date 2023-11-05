@@ -42,7 +42,6 @@ def create_order(request):
 
         # Check if mail_sent is False and schedule the email
         if not order.mail_sent:
-            order = Order.objects.get(id=id)
             schedule_order_email(order)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
