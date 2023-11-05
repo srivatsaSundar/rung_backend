@@ -51,11 +51,11 @@ def schedule_order_email(order):
     body += f"**Total Price:** {order.total_price} CHF\n\n"
     
     # Assuming 'order.cart' is a list or queryset of items
-    for item in order.cart:
-        print(item.item_name)
-        body += f"{item.quantity}x {item.item_name} {item.cost} CHF\n"
-        if item.customization:
-            body += f"- {item.customization}\n"
+    # for item in order.cart:
+    #     print(item.item_name)
+    #     body += f"{item.quantity}x {item.item_name} {item.cost} CHF\n"
+    #     if item.customization:
+    #         body += f"- {item.customization}\n"
     body += f"\n**Gesamt {order.total_price} CHF**\n\n"
 
     # Additional information
