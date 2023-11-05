@@ -36,7 +36,7 @@ def schedule_order_email(order):
     Args:
         order: The Order instance for which to send an email.
     """
-    to_email = "vatsasundar0503@gmail.com"
+    to_email = "Y.mahendran@gmail.com"
     subject = "Order Details"
     body = ""
     # Construct the email body based on the database information
