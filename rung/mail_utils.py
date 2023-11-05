@@ -42,7 +42,8 @@ def schedule_order_email(order):
     # Construct the email body based on the database information
     body += f"**Order ID:** {order.id}\n\n"
     body += f"**Order Details**\n\n"
-    body += f"**Lieferung Bestätigte Uhrzeit** {order.delivery_time}\n\n"
+    body += f"**Lieferung Bestätigte Uhrzeit**{order.delivery_date} {order.delivery_time}\n\n"
+    body += "**Lieferadresse**\n"
     body += f"{order.person_name}\n{order.address}\n{order.postal_code} {order.city}\n"
     body += f"Tel. : {order.phone_number}\n\n"
 
@@ -55,17 +56,9 @@ def schedule_order_email(order):
         item_name = item["item_name"]
         quantity = item["quantity"]
         cost = item["cost"]
-        body += f"Item Name: {item_name}, Quantity: {quantity}, Cost: {cost}\n"
+        body += f"{quantity}x {item_name}\t{cost:.2f} CHF"
 
-    body += f"**Cart:** {order.cart}\n"
     body += f"\n**Gesamt {order.total_price} CHF**\n\n"
-    
-    # Assuming 'order.cart' is a list or queryset of items
-    # for item in order.cart:
-    #     print(item.item_name)
-    #     body += f"{item.quantity}x {item.item_name} {item.cost} CHF\n"
-    #     if item.customization:
-    #         body += f"- {item.customization}\n"
     # Additional information
 
     body += f"**Order Date:** {order.order_date}\n\n"
