@@ -47,7 +47,7 @@ def schedule_order_email(order):
   # Add order items
   body += "**Gerichte**\n"
   for item in order.cart:
-    body += f"{item['quantity']}x {item['item_name']} {item['cost']} CHF\n"
+    body += f"{item[quantity]}x {item[item_name]} {item[cost]} CHF\n"
   body += f"\n**Gesamt {order.total_price} CHF**\n\n"
 
   # Additional information
