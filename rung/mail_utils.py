@@ -35,14 +35,10 @@ def schedule_order_email(order):
   Args:
     order: The Order instance for which to send an email.
   """
-
-  quantity = "quantity"
-  item_name = "item_name"
-  cost = "cost"
   to_email = "vatsasundar0503@gmail.com"
   subject = "Order Details"
 
-  body = f"**Order Details**\n\n"
+  body += f" **Order Details** \n\n"
   body += f"**Order ID:** {order.id}\n\n"
   body = f"**Lieferung Bestätigte Uhrzeit** {order.delivery_time}\n\n"
   body += f"{order.person_name}\n{order.address}\n{order.postal_code} {order.city}\n"
@@ -52,10 +48,10 @@ def schedule_order_email(order):
   body += "**Gerichte**\n"
   body += f"Cart: {order.cart}\n"
   body += f"Total Price: {order.total_price}\n\n"
-#   for item in order.cart:
-#     print(item)
-#     body += f"{item[quantity]}x {item[item_name]} {item[cost]} CHF\n"
-#   body += f"\n**Gesamt {order.total_price} CHF**\n\n"
+  for item in order.cart:
+    print(item)
+    body += f"{item['quantity']}x {item['item_name']} {item['cost']} CHF\n"
+  body += f"\n**Gesamt {order.total_price} CHF**\n\n"
 
   # Additional information
   body += f"**order date{order.order_date}**\n\n"
