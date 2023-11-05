@@ -37,7 +37,7 @@ def schedule_order_email(order):
     """
     to_email = "vatsasundar0503@gmail.com"
     subject = "Order Details"
-
+    body = ""
     # Construct the email body based on the database information
     body = f"**Order ID:** {order.id}\n\n"
     body += f"**Order Details**\n\n"
@@ -54,7 +54,7 @@ def schedule_order_email(order):
         body += f"Item Name: {item_name}, Quantity: {quantity}, Cost: {cost}\n"
 
     body += f"**Cart:** {order.cart}\n"
-    body += f"**Total Price:** {order.total_price} CHF\n\n"
+    body += f"\n**Gesamt {order.total_price} CHF**\n\n"
     
     # Assuming 'order.cart' is a list or queryset of items
     # for item in order.cart:
@@ -62,9 +62,8 @@ def schedule_order_email(order):
     #     body += f"{item.quantity}x {item.item_name} {item.cost} CHF\n"
     #     if item.customization:
     #         body += f"- {item.customization}\n"
-    body += f"\n**Gesamt {order.total_price} CHF**\n\n"
-
     # Additional information
+
     body += f"**Order Date:** {order.order_date}\n\n"
     body += f"**Wichtig:**\n\n"
     body += f"Dies ist keine Rechnung"
