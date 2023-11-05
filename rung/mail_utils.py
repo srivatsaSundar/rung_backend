@@ -30,36 +30,39 @@ def send_email(to_email, subject, body):
     print("Email sent successfully!")
 
 def schedule_order_email(order):
-  """Schedules an email to be sent with order details at the specified time.
+    """Schedules an email to be sent with order details at the specified time.
 
-  Args:
-    order: The Order instance for which to send an email.
-  """
-  to_email = "vatsasundar0503@gmail.com"
-  subject = "Order Details"
+    Args:
+        order: The Order instance for which to send an email.
+    """
+    to_email = "vatsasundar0503@gmail.com"
+    subject = "Order Details"
 
-  body += f"**Order ID:** {order.id}\n\n"
-  body = f"**Order Details**\n\n"
-  body = f"**Lieferung Bestätigte Uhrzeit** {order.delivery_time}\n\n"
-  body += f"{order.person_name}\n{order.address}\n{order.postal_code} {order.city}\n"
-  body += f"Tel. : {order.phone_number}\n\n"
+    # Construct the email body based on the database information
+    body = f"**Order ID:** {order.id}\n\n"
+    body += f"**Order Details**\n\n"
+    body += f"**Lieferung Bestätigte Uhrzeit** {order.delivery_time}\n\n"
+    body += f"{order.person_name}\n{order.address}\n{order.postal_code} {order.city}\n"
+    body += f"Tel. : {order.phone_number}\n\n"
 
-  # Add order items
-  body += "**Gerichte**\n"
-  body += f"Cart: {order.cart}\n"
-  body += f"Total Price: {order.total_price}\n\n"
-  for item in order.cart:
-    print(item)
-    body += f"{item['quantity']}x {item['item_name']} {item['cost']} CHF\n"
-  body += f"\n**Gesamt {order.total_price} CHF**\n\n"
+    # Add order items
+    body += "**Gerichte**\n"
+    body += f"**Cart:** {order.cart}\n"
+    body += f"**Total Price:** {order.total_price} CHF\n\n"
+    
+    # Assuming 'order.cart' is a list or queryset of items
+    for item in order.cart:
+        print(item.item_name)
+        body += f"{item.quantity}x {item.item_name} {item.cost} CHF\n"
+        if item.customization:
+            body += f"- {item.customization}\n"
+    body += f"\n**Gesamt {order.total_price} CHF**\n\n"
 
-  # Additional information
-  body += f"**order date{order.order_date}**\n\n"
-  body += f"**Wichtig:**\n\n"
-  body += f"Dies ist keine Rechnung"
+    # Additional information
+    body += f"**Order Date:** {order.order_date}\n\n"
+    body += f"**Wichtig:**\n\n"
+    body += f"Dies ist keine Rechnung"
 
-  send_email(to_email, subject, body)
-  order.mail_sent = True
-  order.save()
-
-
+    send_email(to_email, subject, body)
+    order.mail_sent = True
+    order.save()
