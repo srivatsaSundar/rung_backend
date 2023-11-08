@@ -9,6 +9,6 @@ services:
     environment:
       - MYSQL_DATABASE=wavivuxe_mrrung
       - MYSQL_USER=wavivuxe_rung
-      - MYSQL_PASSWORD=mrrung@123
+      - MYSQL_PASSWORD=To!T2Ufig4p=VcJF9i!Q
       - MYSQL_HOST=wavivuxe.mysql.db.hostpoint.ch
       - MYSQL_PORT=3306

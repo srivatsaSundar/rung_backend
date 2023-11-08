@@ -93,7 +93,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'wavivuxe_mrrung',
         'USER': 'wavivuxe_rung',
-        'PASSWORD': 'mrrung@123',
+        'PASSWORD': 'To!T2Ufig4p=VcJF9i!Q',
         'HOST': 'wavivuxe.mysql.db.hostpoint.ch',  # Replace with your actual database host
         'PORT': '3306',  # MySQL's default port
     }
