@@ -39,11 +39,10 @@ def create_order(request):
     if serializer.is_valid():
         serializer.save()
         order = serializer.instance  # Get the created order instance
-
         # Check if mail_sent is False and schedule the email
         if not order.mail_sent:
             schedule_order_email(order)
-
+            
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
