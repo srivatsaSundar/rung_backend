@@ -108,13 +108,15 @@ def schedule_order_email(order):
 </thead>
 <tbody>
 """
+cart_str = order.cart
+cart = json.loads(cart_str)
+print(cart)
+for item in cart:
+ item_name = item["item_name"]
+ quantity = item["quantity"]
+ cost = item["cost"]
 
-  for item in order.cart:
-    item_name = item["item_name"]
-    quantity = item["quantity"]
-    cost = item["cost"]
-
-    body += f"""
+body += f"""
 <tr>
   <td>{quantity}</td>
   <td>{item_name}</td>
@@ -122,7 +124,7 @@ def schedule_order_email(order):
 </tr>
 """
 
-  body += """
+body += """
 </tbody>
 </table>
 
@@ -136,6 +138,6 @@ def schedule_order_email(order):
 </body>
 """.format(order=order)
 
-  send_email(to_email, subject, body)
-  order.mail_sent = True
-  order.save()
+send_email(to_email, subject, body)
+order.mail_sent = True
+order.save()
