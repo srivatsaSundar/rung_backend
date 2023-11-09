@@ -2,7 +2,6 @@ import email
 import smtplib
 import json
 from django.core.mail import send_mail
-from .models import Order
 
 def send_email(to_email, subject, body):
     """Sends an email to the specified recipient using the email library.
@@ -24,7 +23,7 @@ def send_email(to_email, subject, body):
     smtp.starttls()
 
     # Replace the following with your Gmail username and password.
-    smtp.login("srivatsas0503@gmail.com", "iffw mnvb cfbz fgvh")
+    smtp.login("srivatsas0503@gmail.com", "zsxm mhkk cbgm demu")
 
     smtp.send_message(msg)
     smtp.quit()
