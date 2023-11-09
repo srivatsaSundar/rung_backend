@@ -2,6 +2,7 @@ import email
 import smtplib
 import json
 from django.core.mail import send_mail
+from .models import Order
 
 def send_email(to_email, subject, body):
     """Sends an email to the specified recipient using the email library.
@@ -71,7 +72,7 @@ def send_email(to_email, subject, body):
 #     order.mail_sent = True
 #     order.save()
 
-def schedule_order_email(order):
+def schedule_order_email(Order):
   """Schedules an email to be sent with order details at the specified time.
 
   Args:
@@ -87,15 +88,15 @@ def schedule_order_email(order):
 <h2 style="text-align: center;">Order Details</h2>
 
 <p>**Order ID:** {order.id}</p>
-<p>**Delivery Date:** {order.delivery_date}</p>
-<p>**Delivery Time:** {order.delivery_time}</p>
+<p>**Delivery Date:** {Order.delivery_date}</p>
+<p>**Delivery Time:** {Order.delivery_time}</p>
 
 <h3 style="text-align: center;">Lieferadresse</h3>
 
-<p>{order.person_name}</p>
-<p>{order.address}</p>
-<p>{order.postal_code} {order.city}</p>
-<p>Tel. : {order.phone_number}</p>
+<p>{Order.person_name}</p>
+<p>{Order.address}</p>
+<p>{Order.postal_code} {order.city}</p>
+<p>Tel. : {Order.phone_number}</p>
 
 <h3 style="text-align: center;">Gerichte</h3>
 <table>
@@ -108,7 +109,7 @@ def schedule_order_email(order):
 </thead>
 <tbody>
 """
-cart_str = order.cart
+cart_str = Order.cart
 cart = json.loads(cart_str)
 print(cart)
 for item in cart:
@@ -128,16 +129,16 @@ body += """
 </tbody>
 </table>
 
-<p style="text-align: center;">**Gesamt: {order.total_price} CHF**</p>
+<p style="text-align: center;">**Gesamt: {Order.total_price} CHF**</p>
 
-<p style="text-align: center;">**Order Date:** {order.order_date}</p>
+<p style="text-align: center;">**Order Date:** {Order.order_date}</p>
 
 <p style="text-align: center;">**Wichtig:**</p>
 
 <p style="text-align: center;">Dies ist keine Rechnung</p>
 </body>
-""".format(order=order)
+""".format(Order=0rder)
 
 send_email(to_email, subject, body)
-order.mail_sent = True
-order.save()
+Order.mail_sent = True
+Order.save()
