@@ -72,7 +72,7 @@ def send_email(to_email, subject, body):
 #     order.mail_sent = True
 #     order.save()
 
-def schedule_order_email(Order):
+def schedule_order_email(order):
   """Schedules an email to be sent with order details at the specified time.
 
   Args:
@@ -81,64 +81,45 @@ def schedule_order_email(Order):
 
   to_email = "vatsasundar0503@gmail.com"
   subject = "Order Details from Mr Rung"
-
-  # Construct the email body based on the database information
   body = """
-<body style="background-color: #FF0000;">
-<h2 style="text-align: center;">Order Details</h2>
-
-<p>**Order ID:** {order.id}</p>
-<p>**Delivery Date:** {Order.delivery_date}</p>
-<p>**Delivery Time:** {Order.delivery_time}</p>
-
-<h3 style="text-align: center;">Lieferadresse</h3>
-
-<p>{Order.person_name}</p>
-<p>{Order.address}</p>
-<p>{Order.postal_code} {order.city}</p>
-<p>Tel. : {Order.phone_number}</p>
-
-<h3 style="text-align: center;">Gerichte</h3>
-<table>
-<thead>
-<tr>
-  <th>Anzahl</th>
-  <th>Gericht</th>
-  <th>Preis</th>
-</tr>
-</thead>
-<tbody>
+<html>
+<head>
+<title>Order Details from Mr Rung</title>
+</head>
+<body style="background-color: #FF0000; text-align: center; margin: 0 auto;">
 """
-cart_str = Order.cart
-cart = json.loads(cart_str)
-print(cart)
-for item in cart:
- item_name = item["item_name"]
- quantity = item["quantity"]
- cost = item["cost"]
+  body += f"""
+  **Order ID:** {order.id}\n\n
+  **Order Details**\n\n
+  **Lieferung Bestätigte Uhrzeit**{order.delivery_date} {order.delivery_time}\n\n
+  **Lieferadresse**\n
+  {order.person_name}\n{order.address}\n{order.postal_code} {order.city}\n
+  Tel. : {order.phone_number}\n\n
 
-body += f"""
-<tr>
-  <td>{quantity}</td>
-  <td>{item_name}</td>
-  <td>{cost:.2f} CHF</td>
-</tr>
-"""
+  **Gerichte**\n
+  """
+  cart_str = order.cart
+  cart = json.loads(cart_str)
+  for item in cart:
+    item_name = item["item_name"]
+    quantity = item["quantity"]
+    cost = item["cost"]
+    item_line = f"{quantity}x {item_name}\t{cost:.2f} CHF\n"
+    body += item_line
 
-body += """
-</tbody>
-</table>
+  # Add total price
+  body += f"\n**Gesamt: {order.total_price} CHF**\n\n"
+  # Additional information
 
-<p style="text-align: center;">**Gesamt: {Order.total_price} CHF**</p>
+  body += f"**Order Date:** {order.order_date}\n\n"
+  body += f"**Wichtig:**\n\n"
+  body += f"Dies ist keine Rechnung"
 
-<p style="text-align: center;">**Order Date:** {Order.order_date}</p>
-
-<p style="text-align: center;">**Wichtig:**</p>
-
-<p style="text-align: center;">Dies ist keine Rechnung</p>
+  body += """
 </body>
-""".format(Order=0rder)
+</html>
+"""
 
-send_email(to_email, subject, body)
-Order.mail_sent = True
-Order.save()
+  send_email(to_email, subject, body)
+  order.mail_sent = True
+  order.save()
