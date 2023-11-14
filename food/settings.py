@@ -149,5 +149,5 @@ CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     "https://front-end-rung.vercel.app",
-    'https://mrrung.com/',
+    'https://mrrung.com',
 ]
