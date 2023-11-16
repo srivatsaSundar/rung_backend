@@ -36,10 +36,10 @@ def schedule_order_email(order):
     Args:
         order: The Order instance for which to send an email.
     """
-    # to_email =["yuti-m@hotmail.com", "Y.mahendran@gmail.com"]
-    # cc_email=order.email
-    to_email = order.email
-    cc_email ="srivatsas0503@gmail.com"
+    to_email =["yuti-m@hotmail.com", "Y.mahendran@gmail.com"]
+    cc_email=order.email
+    # to_email = order.email
+    # cc_email ="srivatsas0503@gmail.com"
 
     subject = "Order Details from Mr Rung"
     body = ""
