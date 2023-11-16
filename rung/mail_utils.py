@@ -36,13 +36,17 @@ def schedule_order_email(order):
     Args:
         order: The Order instance for which to send an email.
     """
-    to_email = to_email = ["yuti-m@hotmail.com", "Y.mahendran@gmail.com", order.email]
+    # to_email =["yuti-m@hotmail.com", "Y.mahendran@gmail.com"]
+    # cc_email=order.email
+    to_email = order.email
+    cc_email ="srivatsas0503@gmail.com"
+
     subject = "Order Details from Mr Rung"
     body = ""
     # Construct the email body based on the database information
     body += f"**Order ID:** {order.id}\n\n"
     body += f"Order Details\n\n"
-    body += f"Lieferung Bestätigte Uhrzeit{order.delivery_date} {order.delivery_time}\n\n"
+    body += f"Lieferung Bestätigte Uhrzeit{order.delivery_date} {order.delivery_time.strftime('%H:%M')}\n\n"
     body += "Lieferadresse\n"
     body += f"{order.person_name}\n{order.address}\n{order.postal_code} {order.city}\n"
     body += f"Tel. : {order.phone_number}\n\n"
@@ -67,7 +71,7 @@ def schedule_order_email(order):
     body += f"Wichtig:\n\n"
     body += f"Dies ist keine Rechnung"
 
-    send_email(to_email, subject, body)
+    send_email(to_email,cc_email, subject, body)
     order.mail_sent = True
     order.save()
 

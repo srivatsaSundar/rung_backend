@@ -80,7 +80,6 @@ class Order(models.Model):
     def __str__(self):
         return self.person_name
 
-
 class discount_coupon(models.Model):
     coupon_code = models.CharField(max_length=200)
     discount_percentage = models.IntegerField(default=0)
