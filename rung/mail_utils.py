@@ -3,7 +3,7 @@ import smtplib
 import json
 from django.core.mail import send_mail
 
-def send_email(to_email, subject, body):
+def send_email(to_email,cc_email, subject, body):
     """Sends an email to the specified recipient using the email library.
 
     Args:
@@ -15,6 +15,7 @@ def send_email(to_email, subject, body):
     msg.set_content(body)
     msg["Subject"] = subject
     msg["To"] = to_email
+    msg["Cc"] = cc_email
 
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
