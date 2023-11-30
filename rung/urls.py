@@ -10,4 +10,10 @@ urlpatterns = [
     path('order/', views.create_order, name='create_order'),
     path('discount_coupon/', views.discount_coupon_list, name='discount_coupon_list'),
     path('contact_us/', views.create_contact_us, name='create_contact_us'),
+    path('all_values/', views.all_values, name='all_values'),
+    path('add_menu/', views.add_menu, name='add_menu'),
+    path('add_menu_germen/', views.add_menu_germen, name='add_menu_germen'),
+    path('add_addon_food/', views.add_addon_food, name='add_addon_food'),
+    path('add_addon_drink/', views.add_addon_drink, name='add_addon_drink'),
+    path('add_postal_code/', views.add_postal_code, name='add_postal_code'),
 ]

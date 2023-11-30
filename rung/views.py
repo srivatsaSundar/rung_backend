@@ -67,3 +67,52 @@ def postal_code(request):
     serializer = CountryCodeSerializer(postal_codes, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def all_values(request):
+    menus = Menu.objects.filter(available=True)
+    serializer = MenuSerializerView(menus, many=True)
+    menus_germen = Menu_germen.objects.filter(available=True)
+    serializer_germen = MenuGermenSerializerView(menus_germen, many=True)
+    postal_codes = countrycode.objects.filter(available=True)
+    serializer_codes = CountryCodeSerializer(postal_codes, many=True)
+    return Response({'menu':serializer.data,'menu_germen':serializer_germen.data,'postal_codes':serializer_codes.data})
+
+@api_view(['POST'])
+def add_menu(request):
+    serializer = MenuSerializerView(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def add_menu_germen(request):
+    serializer = MenuGermenSerializerView(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def add_addon_food(request):
+    serializer = AddOnFoodSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def add_addon_drink(request):
+    serializer = AddOnDrinkSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def add_postal_code(request):
+    serializer = CountryCodeSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
