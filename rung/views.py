@@ -2,21 +2,21 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .models import Menu, AddOn_food, AddOn_drink, Order,discount_coupon, contact_us,Addon,Menu_germen
-from .serializer import MenuSerializerView, AddOnFoodSerializer, AddOnDrinkSerializer, OrderSerializer, DiscountCouponSerializer, ContactUsSerializer,MenuGermenSerializerView
+from .models import Menu, AddOn_food, AddOn_drink, Order,discount_coupon, contact_us,Addon,Menu_germen,countrycode
+from .serializer import MenuSerializerView, AddOnFoodSerializer, AddOnDrinkSerializer, OrderSerializer, DiscountCouponSerializer, ContactUsSerializer,MenuGermenSerializerView,CountryCodeSerializer
 from .mail_utils import schedule_order_email
 
 @api_view(['GET'])
 def menu_list(request):
     # if request.method == 'GET':
-        menus = Menu.objects.all()
+        menus = Menu.objects.filter(available=True)
         serializer = MenuSerializerView(menus, many=True)
         return Response(serializer.data)
 
 @api_view(['GET'])
 def menu_list_germen(request):
     # if request.method == 'GET':
-        menus_germen = Menu_germen.objects.all()
+        menus_germen = Menu_germen.objects.filter(available=True)
         serializer = MenuGermenSerializerView(menus_germen, many=True)
         return Response(serializer.data)
 
@@ -60,4 +60,10 @@ def create_contact_us(request):
         serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def postal_code(request):
+    postal_codes = countrycode.objects.filter(available=True)
+    serializer = CountryCodeSerializer(postal_codes, many=True)
+    return Response(serializer.data)
 

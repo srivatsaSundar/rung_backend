@@ -7,6 +7,7 @@ class Menu(models.Model):
     price = models.FloatField(default=0)
     description_1 = models.CharField(max_length=200)
     description_2 = models.CharField(max_length=200,null=True,blank=True)
+    available = models.BooleanField(default=True)
     
     def __str__(self):
         return self.name
@@ -24,6 +25,7 @@ class Menu_germen(models.Model):
     price = models.FloatField(default=0,null=True)
     description_1 = models.CharField(max_length=200,null=True)
     description_2 = models.CharField(max_length=200,null=True,blank=True)
+    available = models.BooleanField(default=True)
     
     def __str__(self):
         return self.name
@@ -98,3 +100,10 @@ class contact_us(models.Model):
 
     def __str__(self):
         return self.name
+    
+class countrycode(models.Model):
+    postal_code = models.CharField(max_length=200)
+    available = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.postal_code
