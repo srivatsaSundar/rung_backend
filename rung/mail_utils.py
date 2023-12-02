@@ -24,7 +24,7 @@ def send_email(to_email,cc_email, subject, body):
     smtp.starttls()
 
     # Replace the following with your Gmail username and password.
-    smtp.login("srivatsas0503@gmail.com", "zsxm mhkk cbgm demu")
+    smtp.login("mrrungorders@gmail.com", "augt wgxa pagx vhat")
 
     smtp.send_message(msg)
     smtp.quit()
@@ -37,8 +37,10 @@ def schedule_order_email(order):
     Args:
         order: The Order instance for which to send an email.
     """
-    to_email =["yuti-m@hotmail.com", "Y.mahendran@gmail.com"]
-    cc_email=order.email
+    # to_email =["yuti-m@hotmail.com", "Y.mahendran@gmail.com"]
+    # cc_email=order.email
+    to_email = ["vatsasundar0503@gmail.com"]
+    cc_email = ["srivatsas0503@gmail.com"]
     # to_email = order.email
     # cc_email ="srivatsas0503@gmail.com"
 
