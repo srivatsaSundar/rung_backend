@@ -61,7 +61,7 @@ class ContactUsSerializer(serializers.ModelSerializer):
 class CountryCodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = countrycode
-        fields = ['postal_code']
+        fields = '__all__'
 
 class HolidaySerializer(serializers.ModelSerializer):
     class Meta:
