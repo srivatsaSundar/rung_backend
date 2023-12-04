@@ -2,8 +2,8 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .models import Menu, AddOn_food, AddOn_drink, Order,discount_coupon, contact_us,Addon,Menu_germen,countrycode
-from .serializer import MenuSerializerView, AddOnFoodSerializer, AddOnDrinkSerializer, OrderSerializer, DiscountCouponSerializer, ContactUsSerializer,MenuGermenSerializerView,CountryCodeSerializer
+from .models import Menu, AddOn_food, AddOn_drink, Order,discount_coupon, contact_us,Addon,Menu_germen,countrycode,holiday_notes
+from .serializer import *
 from .mail_utils import schedule_order_email
 
 @api_view(['GET'])
@@ -69,49 +69,93 @@ def postal_code(request):
 
 @api_view(['GET'])
 def all_values(request):
-    menus = Menu.objects.filter(available=True)
+    menus = Menu.objects.all()
     serializer = MenuSerializerView(menus, many=True)
-    menus_germen = Menu_germen.objects.filter(available=True)
+    menus_germen = Menu_germen.objects.all()
     serializer_germen = MenuGermenSerializerView(menus_germen, many=True)
-    postal_codes = countrycode.objects.filter(available=True)
+    postal_codes = countrycode.objects.all()
     serializer_codes = CountryCodeSerializer(postal_codes, many=True)
     return Response({'menu':serializer.data,'menu_germen':serializer_germen.data,'postal_codes':serializer_codes.data})
 
-@api_view(['POST'])
-def add_menu(request):
-    serializer = MenuSerializerView(data=request.data)
+@api_view(['GET'])
+def holiday(request):
+    value=holiday_notes.objects.all()
+    serializer = HolidaySerializer(value, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST', 'PUT', 'PATCH'])
+def add_holiday(request,value=None):
+    if value:
+        menu=holiday_notes.objects.get(start_data=value)
+        serializer=HolidaySerializer(menu, data=request.data, partial=True)
+    else:
+        serializer = HolidaySerializer(data=request.data)
+        
+    if serializer.is_valid():
+        serializer.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['POST', 'PUT', 'PATCH'])
+def add_menu(request,value=None):
+    if value:
+        menu=Menu.objects.get(name=value)
+        serializer=MenuSerializerView(menu, data=request.data, partial=True)
+    else:
+        serializer = MenuSerializerView(data=request.data)
+
     if serializer.is_valid():
         serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
-def add_menu_germen(request):
-    serializer = MenuGermenSerializerView(data=request.data)
+@api_view(['POST', 'PUT', 'PATCH'])
+def add_menu_germen(request,value=None):
+    if value:
+        menu=Menu_germen.objects.get(name=value)
+        serializer=MenuGermenSerializerView(menu, data=request.data, partial=True)
+    else:
+        serializer = MenuGermenSerializerView(data=request.data)
+
     if serializer.is_valid():
         serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
-def add_addon_food(request):
-    serializer = AddOnFoodSerializer(data=request.data)
+@api_view(['POST', 'PUT', 'PATCH'])
+def add_addon_food(request,value=None):
+    if value:
+        menu=AddOn_food.objects.get(name=value)
+        serializer=AddOnFoodSerializer(menu, data=request.data, partial=True)
+    else:
+        serializer = AddOnFoodSerializer(data=request.data)
+
     if serializer.is_valid():
         serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
-def add_addon_drink(request):
-    serializer = AddOnDrinkSerializer(data=request.data)
+@api_view(['POST', 'PUT', 'PATCH'])
+def add_addon_drink(request,value=None):
+    if value:
+        menu=AddOn_drink.objects.get(name=value)
+        serializer=AddOnDrinkSerializer(menu, data=request.data, partial=True)
+    else:
+        serializer = AddOnDrinkSerializer(data=request.data)
+
     if serializer.is_valid():
         serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
-def add_postal_code(request):
-    serializer = CountryCodeSerializer(data=request.data)
+@api_view(['POST', 'PUT', 'PATCH'])
+def add_postal_code(request,value=None):
+    if value:
+        menu=countrycode.objects.get(postal_code=value)
+        serializer=CountryCodeSerializer(menu, data=request.data, partial=True)
+    else:
+        serializer = CountryCodeSerializer(data=request.data)
+
     if serializer.is_valid():
         serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
