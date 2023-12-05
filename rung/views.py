@@ -83,7 +83,7 @@ def holiday(request):
     serializer = HolidaySerializer(value, many=True)
     return Response(serializer.data)
 
-@api_view(['POST', 'PUT', 'PATCH'])
+@api_view(['POST'])
 def add_holiday(request,value=None):
     if value:
         menu=holiday_notes.objects.get(start_data=value)
@@ -96,7 +96,7 @@ def add_holiday(request,value=None):
         return Response(status=status.HTTP_204_NO_CONTENT)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-@api_view(['POST', 'PUT', 'PATCH'])
+@api_view(['POST'])
 def add_menu(request,value=None):
     if value:
         menu=Menu.objects.get(name=value)
@@ -109,7 +109,7 @@ def add_menu(request,value=None):
         return Response(status=status.HTTP_204_NO_CONTENT)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST', 'PUT', 'PATCH'])
+@api_view(['POST'])
 def add_menu_germen(request,value=None):
     if value:
         menu=Menu_germen.objects.get(name=value)
@@ -122,7 +122,7 @@ def add_menu_germen(request,value=None):
         return Response(status=status.HTTP_204_NO_CONTENT)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST', 'PUT', 'PATCH'])
+@api_view(['POST'])
 def add_addon_food(request,value=None):
     if value:
         menu=AddOn_food.objects.get(name=value)
@@ -135,7 +135,7 @@ def add_addon_food(request,value=None):
         return Response(status=status.HTTP_204_NO_CONTENT)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST', 'PUT', 'PATCH'])
+@api_view(['POST'])
 def add_addon_drink(request,value=None):
     if value:
         menu=AddOn_drink.objects.get(name=value)
@@ -148,7 +148,7 @@ def add_addon_drink(request,value=None):
         return Response(status=status.HTTP_204_NO_CONTENT)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST', 'PUT', 'PATCH'])
+@api_view(['POST'])
 def add_postal_code(request,value=None):
     if value:
         menu=countrycode.objects.get(postal_code=value)
