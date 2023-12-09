@@ -150,12 +150,18 @@ def add_addon_drink(request,value=None):
 
 @api_view(['POST'])
 def add_postal_code(request, postal_code=None):
+    existing_instance = countrycode.objects.filter(postal_code=request.data.get('postal_code')).first()
+
+    if existing_instance:
+        return Response({'error': 'Postal code already exists.'}, status=status.HTTP_409_CONFLICT)
+
     serializer = CountryCodeSerializer(data=request.data)
 
     if serializer.is_valid():
         serializer.save()
         response_data = {'message': 'Data successfully added.'}
         return Response(response_data, status=status.HTTP_201_CREATED)
+    
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
