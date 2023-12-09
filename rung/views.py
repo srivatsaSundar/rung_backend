@@ -149,7 +149,7 @@ def add_addon_drink(request,value=None):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
-def add_postal_code(request,postal_code=None):
+def add_postal_code(request, postal_code=None):
     if postal_code:
         # Update availability if postal_code is provided
         instance = countrycode.objects.get(postal_code=postal_code)
@@ -160,5 +160,6 @@ def add_postal_code(request,postal_code=None):
 
     if serializer.is_valid():
         serializer.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        response_data = {'message': 'Data successfully processed.'}
+        return Response(response_data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
