@@ -191,3 +191,5 @@ def delete_postal_code(request, postal_code):
     instance.delete()
     response_data = {'message': 'Postal code successfully deleted.'}
     return Response(response_data, status=status.HTTP_200_OK)
+
+#nice#
