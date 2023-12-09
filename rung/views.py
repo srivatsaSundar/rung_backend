@@ -150,10 +150,12 @@ def add_addon_drink(request,value=None):
 
 @api_view(['POST'])
 def add_postal_code(request,value=None):
-    if value:
-        menu=countrycode.objects.get(postal_code=value)
-        serializer=CountryCodeSerializer(menu, data=request.data, partial=True)
+    if postal_code:
+        # Update availability if postal_code is provided
+        instance = countrycode.objects.get(postal_code=postal_code)
+        serializer = CountryCodeSerializer(instance, data=request.data, partial=True)
     else:
+        # Add a new postal code if postal_code is not provided
         serializer = CountryCodeSerializer(data=request.data)
 
     if serializer.is_valid():
