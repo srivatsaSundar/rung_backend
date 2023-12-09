@@ -92,8 +92,9 @@ def add_holiday(request,value=None):
         serializer = HolidaySerializer(data=request.data)
         
     if serializer.is_valid():
-        serializer.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        serializer.save() 
+        response_data = {'message': 'Availability successfully updated.'}
+        return Response(response_data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['POST'])
