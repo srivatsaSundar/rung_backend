@@ -86,8 +86,18 @@ def holiday(request):
 @api_view(['POST'])
 def add_holiday(request, value=None):
     try:
+        if value is not None:
+            # Check if a record with the provided start date exists
+            instance = holiday_notes.objects.get(start_data=value)
+            return Response({'message': 'Holiday data already exists.'}, status=status.HTTP_200_OK)
+
+        # If value is None, check the request data for the start date
+        start_data = request.data.get('start_data')
+        if start_data is None:
+            return Response({'error': 'Start date is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
         # Check if a record with the provided start date exists
-        instance = holiday_notes.objects.get(start_data=value)
+        instance = holiday_notes.objects.get(start_data=start_data)
         return Response({'message': 'Holiday data already exists.'}, status=status.HTTP_200_OK)
 
     except holiday_notes.DoesNotExist:
@@ -100,6 +110,7 @@ def add_holiday(request, value=None):
             return Response(response_data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['POST'])
 def add_menu(request,value=None):
