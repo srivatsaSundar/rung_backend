@@ -111,7 +111,15 @@ def add_holiday(request, value=None):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+@api_view(['DELETE'])
+def delete_holiday(request, start_data):
+    try:
+        holiday_instance = holiday_notes.objects.get(start_data=start_data)
+        holiday_instance.delete()
+        return Response({'message': 'Holiday data deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+    except holiday_notes.DoesNotExist:
+        return Response({'error': 'Holiday data not found.'}, status=status.HTTP_404_NOT_FOUND)
+    
 @api_view(['POST'])
 def add_menu(request,value=None):
     if value:
