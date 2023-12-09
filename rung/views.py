@@ -150,16 +150,25 @@ def add_addon_drink(request,value=None):
 
 @api_view(['POST'])
 def add_postal_code(request, postal_code=None):
-    if postal_code:
-        # Update availability if postal_code is provided
-        instance = countrycode.objects.get(postal_code=postal_code)
-        serializer = CountryCodeSerializer(instance, data=request.data, partial=True)
-    else:
-        # Add a new postal code if postal_code is not provided
-        serializer = CountryCodeSerializer(data=request.data)
+    serializer = CountryCodeSerializer(data=request.data)
 
     if serializer.is_valid():
         serializer.save()
-        response_data = {'message': 'Data successfully processed.'}
+        response_data = {'message': 'Data successfully added.'}
+        return Response(response_data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def change_availability(request, postal_code):
+    try:
+        instance = countrycode.objects.get(postal_code=postal_code)
+    except countrycode.DoesNotExist:
+        return Response({'error': 'Postal code not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = CountryCodeSerializer(instance, data=request.data, partial=True)
+
+    if serializer.is_valid():
+        serializer.save()
+        response_data = {'message': 'Availability successfully updated.'}
         return Response(response_data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
