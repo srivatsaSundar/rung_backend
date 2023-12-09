@@ -17,7 +17,7 @@ urlpatterns = [
     path('add_addon_drink/', views.add_addon_drink, name='add_addon_drink'),    
     path('add_postal_code/', views.add_postal_code, name='add_postal_code'),
     path('change_availability/<str:postal_code>/', views.change_availability, name='change_availability'),
-
+    path('delete_postal_code/<str:postal_code>/', views.delete_postal_code, name='delete_postal_code'),
     path('holiday/', views.holiday, name='holiday'),
     path('add_holiday/', views.add_holiday, name='add_holiday'),
 ]

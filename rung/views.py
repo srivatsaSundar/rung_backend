@@ -172,3 +172,15 @@ def change_availability(request, postal_code):
         response_data = {'message': 'Availability successfully updated.'}
         return Response(response_data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+def delete_postal_code(request, postal_code):
+    try:
+        instance = countrycode.objects.get(postal_code=postal_code)
+    except countrycode.DoesNotExist:
+        return Response({'error': 'Postal code not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    instance.delete()
+    response_data = {'message': 'Postal code successfully deleted.'}
+    return Response(response_data, status=status.HTTP_200_OK)
