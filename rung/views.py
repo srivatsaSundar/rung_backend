@@ -84,19 +84,23 @@ def holiday(request):
     return Response(serializer.data)
 
 @api_view(['POST'])
-def add_holiday(request,value=None):
-    if value:
-        menu=holiday_notes.objects.get(start_data=value)
-        serializer=HolidaySerializer(menu, data=request.data, partial=True)
-    else:
+def add_holiday(request, value=None):
+    try:
+        # Check if a record with the provided start date exists
+        instance = holiday_notes.objects.get(start_data=value)
+        return Response({'message': 'Holiday data already exists.'}, status=status.HTTP_200_OK)
+
+    except holiday_notes.DoesNotExist:
+        # If the record doesn't exist, create a new one
         serializer = HolidaySerializer(data=request.data)
-        
-    if serializer.is_valid():
-        serializer.save() 
-        response_data = {'message': 'Availability successfully updated.'}
-        return Response(response_data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+        if serializer.is_valid():
+            serializer.save()
+            response_data = {'message': 'New holiday data successfully added.'}
+            return Response(response_data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['POST'])
 def add_menu(request,value=None):
     if value:
