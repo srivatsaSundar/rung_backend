@@ -121,30 +121,146 @@ def delete_holiday(request, start_data):
         return Response({'error': 'Holiday data not found.'}, status=status.HTTP_404_NOT_FOUND)
     
 @api_view(['POST'])
-def add_menu(request,value=None):
-    if value:
-        menu=Menu.objects.get(name=value)
-        serializer=MenuSerializerView(menu, data=request.data, partial=True)
-    else:
-        serializer = MenuSerializerView(data=request.data)
+def add_menu(request, value=None):
+    try:
+        if value is not None:
+            # Check if a record with the provided name exists
+            instance = Menu.objects.get(name=value)
+            serializer = MenuSerializerView(instance, data=request.data, partial=True)
 
-    if serializer.is_valid():
-        serializer.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'Menu data updated successfully.'}
+                return Response(response_data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # If value is None, check the request data for the name
+        name = request.data.get('name')
+        if name is None:
+            return Response({'error': 'Name is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check if a record with the provided name exists
+        instance = Menu.objects.filter(name=name).first()
+
+        if instance:
+            # If the record exists, update it
+            serializer = MenuSerializerView(instance, data=request.data, partial=True)
+
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'Menu data updated successfully.'}
+                return Response(response_data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            # If the record doesn't exist, create a new one
+            serializer = MenuSerializerView(data=request.data)
+
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'New menu data successfully added.'}
+                return Response(response_data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
-def add_menu_germen(request,value=None):
-    if value:
-        menu=Menu_germen.objects.get(name=value)
-        serializer=MenuGermenSerializerView(menu, data=request.data, partial=True)
-    else:
-        serializer = MenuGermenSerializerView(data=request.data)
+def menu_availability(request, name):
+    try:
+        instance = Menu.objects.get(name=name)
+    except Menu.DoesNotExist:
+        return Response({'error': 'Menu not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = MenuSerializerView(instance, data=request.data, partial=True)
 
     if serializer.is_valid():
         serializer.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        response_data = {'message': 'Availability successfully updated.'}
+        return Response(response_data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def delete_menu(request, name):
+    try:
+        menu_instance = Menu.objects.get(name=name)
+        menu_instance.delete()
+        return Response({'message': 'Menu data deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+    except Menu.DoesNotExist:
+        return Response({'error': 'Menu data not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['POST'])
+def add_menu_germen(request, value=None):
+    try:
+        if value is not None:
+            # Check if a record with the provided name exists
+            instance = Menu_germen.objects.get(name=value)
+            serializer = MenuGermenSerializerView(instance, data=request.data, partial=True)
+
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'Menu data updated successfully.'}
+                return Response(response_data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # If value is None, check the request data for the name
+        name = request.data.get('name')
+        if name is None:
+            return Response({'error': 'Name is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check if a record with the provided name exists
+        instance = Menu_germen.objects.filter(name=name).first()
+
+        if instance:
+            # If the record exists, update it
+            serializer = MenuGermenSerializerView(instance, data=request.data, partial=True)
+
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'Menu data updated successfully.'}
+                return Response(response_data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            # If the record doesn't exist, create a new one
+            serializer = MenuGermenSerializerView(data=request.data)
+
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'New menu data successfully added.'}
+                return Response(response_data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+def menu_availability_germen(request, name):
+    try:
+        instance = Menu_germen.objects.get(name=name)
+    except Menu_germen.DoesNotExist:
+        return Response({'error': 'Menu not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = MenuGermenSerializerView(instance, data=request.data, partial=True)
+
+    if serializer.is_valid():
+        serializer.save()
+        response_data = {'message': 'Availability successfully updated.'}
+        return Response(response_data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+def delete_menu_germen(request, name):
+    try:
+        menu_instance = Menu_germen.objects.get(name=name)
+        menu_instance.delete()
+        return Response({'message': 'Menu data deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+    except Menu_germen.DoesNotExist:
+        return Response({'error': 'Menu data not found.'}, status=status.HTTP_404_NOT_FOUND)
+    
 
 @api_view(['POST'])
 def add_addon_food(request,value=None):
@@ -189,7 +305,7 @@ def add_postal_code(request, postal_code=None):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
-def change_availability(request, postal_code):
+def postal_change_availability(request, postal_code):
     try:
         instance = countrycode.objects.get(postal_code=postal_code)
     except countrycode.DoesNotExist:
@@ -214,5 +330,3 @@ def delete_postal_code(request, postal_code):
     instance.delete()
     response_data = {'message': 'Postal code successfully deleted.'}
     return Response(response_data, status=status.HTTP_200_OK)
-
-#nice#
