@@ -167,7 +167,7 @@ def add_menu(request, value=None):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
-def menu_availability(request, name):
+def menu_availability(request,name):
     try:
         instance = Menu.objects.get(name=name)
     except Menu.DoesNotExist:
