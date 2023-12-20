@@ -75,7 +75,11 @@ def all_values(request):
     serializer_germen = MenuGermenSerializerView(menus_germen, many=True)
     postal_codes = countrycode.objects.all()
     serializer_codes = CountryCodeSerializer(postal_codes, many=True)
-    return Response({'menu':serializer.data,'menu_germen':serializer_germen.data,'postal_codes':serializer_codes.data})
+    add_on_food = AddOn_food.objects.all()
+    serializer_add_on_food = AddOnFoodSerializer(add_on_food, many=True)
+    add_on=Addon.objects.all()
+    serializer_add_on=AddonSerializer(add_on,many=True)
+    return Response({'menu':serializer.data,'menu_germen':serializer_germen.data,'postal_codes':serializer_codes.data,'add_on':serializer_add_on.data,'add_on_food':serializer_add_on_food.data})
 
 @api_view(['GET'])
 def holiday(request):
