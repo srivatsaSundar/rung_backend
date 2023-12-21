@@ -362,11 +362,13 @@ def add_addon_food(request,value=None):
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['DELETE'])
-def delete_addon_food(request, name):
+def delete_addon_food(request, menu,menu_germen,food):
     try:
-        menu_instance = AddOn_food.objects.get(name=name)
-        menu_instance.delete()
-        return Response({'message': 'Menu data deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+        if AddOn_food.objects.filter(menu=menu,menu_germen=menu_germen,food=food).exists():
+            menu_instance = AddOn_food.objects.get(menu=menu,menu_germen=menu_germen,food=food)
+            menu_instance.delete()
+            return Response({'message': 'Menu data deleted successfully.'}, status=status.HTTP_200_OK)
+       
     except AddOn_food.DoesNotExist:
         return Response({'error': 'Menu data not found.'}, status=status.HTTP_404_NOT_FOUND)
 
