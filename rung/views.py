@@ -329,7 +329,7 @@ def add_addon_food(request):
 
         # Ensure that the keys in data match the field names of your models
         menu_instances = Menu.objects.filter(**menu_data)
-        menu_germen_instances = Menu_Germen.objects.filter(**menu_germen_data)
+        menu_germen_instances = Menu_germen.objects.filter(**menu_germen_data)
         addon_instances = Addon.objects.filter(**addon_data)
 
         if not menu_instances.exists() or not menu_germen_instances.exists() or not addon_instances.exists():
