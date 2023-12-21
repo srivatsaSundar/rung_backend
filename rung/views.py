@@ -321,36 +321,22 @@ def delete_add_on(request, name):
         return Response({'error': 'Menu data not found.'}, status=status.HTTP_404_NOT_FOUND)
     
 @api_view(['POST'])
-def add_addon_food(request,value=None):
+def add_addon_food(request):
     try:
-        if value is not None:
-            # Check if a record with the provided name exists
-            instance = AddOn_food.objects.get(name=value)
-            serializer = AddOnFoodSerializer(instance, data=request.data, partial=True)
+        menu_data = request.data.get('menu')
+        menu_germen = request.data.get('menu_germen')
+        addon = request.data.get('addon')
 
-            if serializer.is_valid():
-             serializer.save()
-             response_data = {'message': 'Menu data updated successfully.'}
-             return Response(response_data, status=status.HTTP_200_OK)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        menu_instance = Menu.objects.get(**menu_data)
+        menu_germen_instance = Menu_germen.objects.get(**menu_germen)
+        addon_instance = Addon.objects.get(**addon)
 
-        name = request.data.get('name')
-        if name is None:
-            return Response({'error': 'Name is required.'}, status=status.HTTP_400_BAD_REQUEST)
-
-        instance = AddOn_food.objects.filter(name=name).first()
-        if instance:
-            serializer = AddOnFoodSerializer(instance, data=request.data, partial=True)
-
-            if serializer.is_valid():
-                    serializer.save()
-                    response_data = {'message': 'Menu data updated successfully.'}
-                    return Response(response_data, status=status.HTTP_200_OK)
-            else:
-                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            serializer = AddOnFoodSerializer(data=request.data)
+        serializer = AddOnFoodSerializer(data={
+            'menu': menu_instance.id,
+            'menu_germen': menu_germen_instance.id,
+            'addon': addon_instance.id,
+            **request.data
+        })
 
         if serializer.is_valid():
             serializer.save()
@@ -358,9 +344,11 @@ def add_addon_food(request,value=None):
             return Response(response_data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+           
 @api_view(['DELETE'])
 def delete_addon_food(request, id):
     try:
