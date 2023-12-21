@@ -326,15 +326,20 @@ def add_addon_food(request):
         menu_data = request.data.get('menu')
         menu_germen = request.data.get('menu_germen')
         addon = request.data.get('addon')
-
+        print(menu_data)
+        print(menu_germen)
+        print(addon)
         menu_instance = Menu.objects.get(**menu_data)
         menu_germen_instance = Menu_germen.objects.get(**menu_germen)
         addon_instance = Addon.objects.get(**addon)
+        print(menu_instance)
+        print(menu_germen_instance)
+        print(addon_instance)
 
         serializer = AddOnFoodSerializer(data={
-            'menu': menu_instance.id,
-            'menu_germen': menu_germen_instance.id,
-            'addon': addon_instance.id,
+            'menu_id': menu_instance.id,
+            'menu_germen_id': menu_germen_instance.id,
+            'food_id': addon_instance.id,
             **request.data
         })
 
