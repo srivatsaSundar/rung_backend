@@ -324,21 +324,28 @@ def delete_add_on(request, name):
 def add_addon_food(request):
     try:
         menu_data = request.data.get('menu')
-        menu_germen = request.data.get('menu_germen')
-        addon = request.data.get('addon')
+        menu_germen_data = request.data.get('menu_germen')
+        addon_data = request.data.get('addon')
 
-        menu_instance = Menu.objects.filter(name=menu_data)
-        menu_id = menu_instance.first().id
-        menu_germen_instance = Menu_germen.objects.filter(name=menu_germen)
-        menu_germen_id = menu_germen_instance.first().id
-        addon_instance = Addon.objects.filter(name=addon)
-        addon_id = addon_instance.first().id
+        # Ensure that the keys in data match the field names of your models
+        menu_instances = Menu.objects.filter(**menu_data)
+        menu_germen_instances = Menu_Germen.objects.filter(**menu_germen_data)
+        addon_instances = Addon.objects.filter(**addon_data)
 
+        if not menu_instances.exists() or not menu_germen_instances.exists() or not addon_instances.exists():
+            return Response({'error': 'One or more instances do not exist.'}, status=status.HTTP_404_NOT_FOUND)
+
+        menu_id = menu_instances.first().id
+        menu_germen_id = menu_germen_instances.first().id
+        addon_id = addon_instances.first().id
+
+        # Include request.data without 'menu', 'menu_germen', and 'addon' keys
+        serializer_data = {key: value for key, value in request.data.items() if key not in ['menu', 'menu_germen', 'addon']}
         serializer = AddOnFoodSerializer(data={
-            'menu': menu_id,
-            'menu_germen': menu_germen_id,
-            'food': addon_id,
-            **request.data
+            'menu_id': menu_id,
+            'menu_germen_id': menu_germen_id,
+            'food_id': addon_id,
+            **serializer_data
         })
 
         if serializer.is_valid():
@@ -346,7 +353,7 @@ def add_addon_food(request):
             response_data = {'message': 'New menu data successfully added.'}
             return Response(response_data, status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
