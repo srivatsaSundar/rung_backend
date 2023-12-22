@@ -109,11 +109,9 @@ class countrycode(models.Model):
         return self.postal_code
     
 class holiday_notes(models.Model):
-    start_data = models.DateField(null=True, blank=True)
-    end_data = models.DateField(null=True, blank=True)
+    start_data = models.DateTimeField(null=True, blank=True)
+    end_data = models.DateTimeField(null=True, blank=True)
     holiday_note = models.TextField(null=True, blank=True)
-    start_time = models.TimeField(null=True, blank=True)
-    end_time = models.TimeField(null=True, blank=True)
 
     def __str__(self):
         return self.start_data
