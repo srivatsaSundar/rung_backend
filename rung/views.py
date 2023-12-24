@@ -326,42 +326,12 @@ def delete_add_on(request, name):
 @api_view(['POST'])
 def add_addon_food(request):
     try:
-        data = json.loads(request.body)
-        menu_data = data.get("menu")  # Get the value of the "menu" key
-        menu_germen_data = data.get("menu_germen")
-        addon_data = data.get("addon")
-
-        # Ensure that the keys in data match the field names of your models
-        if isinstance(menu_data,str):
-            menu_instances = Menu.objects.filter(name=menu_data)
-        else:
-            menu_instances = Menu.objects.filter(**menu_data)
-        if isinstance(menu_germen_data,str):
-            menu_germen_instances = Menu_germen.objects.filter(name=menu_germen_data)
-        else:
-            menu_germen_instances = Menu_germen.objects.filter(**menu_germen_data)
-        if isinstance(addon_data,str):
-            addon_instances = Addon.objects.filter(name=addon_data)
-        else:
-            addon_instances = Addon.objects.filter(**addon_data)
-
-        menu_id = menu_instances.first().id
-        menu_germen_id = menu_germen_instances.first().id
-        addon_id = addon_instances.first().id
-        print(menu_id)
-
-        serializer = AddOnFoodSerializer(data={
-            'menu_id': menu_id,
-            'menu_germen_id': menu_germen_id,
-            'food_id': addon_id,
-        })
-        print(serializer)
-        if serializer.is_valid():
+       serializer = AddOnFoodSerializer(data=request.data)
+       if serializer.is_valid():
             serializer.save()
-            response_data = {'message': 'New menu data successfully added.'}
-            return Response(response_data, status=status.HTTP_201_CREATED)
-        else:
-            return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+       else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     except Exception as e:
         print("Exception:", e)
