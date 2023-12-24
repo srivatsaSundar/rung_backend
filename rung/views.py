@@ -356,6 +356,7 @@ def add_addon_food(request):
             response_data = {'message': 'New menu data successfully added.'}
             return Response(response_data, status=status.HTTP_201_CREATED)
         else:
+            print("Serializer errors:", serializer.errors)
             return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     except Exception as e:
