@@ -33,7 +33,6 @@ class AddOnFoodSerializer(serializers.ModelSerializer):
     class Meta:
         model = AddOn_food
         exclude = ['id']
-        fields = '__all__'
 
 class AddOnDrinkSerializer(serializers.ModelSerializer):
     menu = MenuSerializer()
