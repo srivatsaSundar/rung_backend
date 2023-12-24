@@ -68,6 +68,12 @@ def postal_code(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
+def view_addon(request):
+    add_on=Addon.objects.all()
+    serializer_add_on=AddonSerializer(add_on,many=True)
+    return Response(serializer_add_on.data)
+
+@api_view(['GET'])
 def all_values(request):
     menus = Menu.objects.all()
     serializer = MenuSerializerView(menus, many=True)
@@ -75,11 +81,7 @@ def all_values(request):
     serializer_germen = MenuGermenSerializerView(menus_germen, many=True)
     postal_codes = countrycode.objects.all()
     serializer_codes = CountryCodeSerializer(postal_codes, many=True)
-    add_on_food = AddOn_food.objects.all()
-    serializer_add_on_food = AddOnFoodSerializer(add_on_food, many=True)
-    add_on=Addon.objects.all()
-    serializer_add_on=AddonSerializer(add_on,many=True)
-    return Response({'menu':serializer.data,'menu_germen':serializer_germen.data,'postal_codes':serializer_codes.data,'add_on':serializer_add_on.data,'add_on_food':serializer_add_on_food.data})
+    return Response({'menu':serializer.data,'menu_germen':serializer_germen.data,'postal_codes':serializer_codes.data})
 
 @api_view(['GET'])
 def holiday(request):
@@ -264,9 +266,9 @@ def delete_menu_germen(request, name):
         return Response({'message': 'Menu data deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
     except Menu_germen.DoesNotExist:
         return Response({'error': 'Menu data not found.'}, status=status.HTTP_404_NOT_FOUND)
-
+    
 @api_view(['POST'])
-def add_on(request, value=None):
+def add_addon(request, value=None):
     try:
         if value is not None:
             # Check if a record with the provided name exists
