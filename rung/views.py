@@ -5,6 +5,7 @@ from rest_framework import status
 from .models import Menu, AddOn_food, AddOn_drink, Order,discount_coupon, contact_us,Addon,Menu_germen,countrycode,holiday_notes
 from .serializer import *
 from .mail_utils import schedule_order_email
+import json 
 
 @api_view(['GET'])
 def menu_list(request):
@@ -325,17 +326,16 @@ def delete_add_on(request, name):
 @api_view(['POST'])
 def add_addon_food(request):
     try:
-        menu_data = request.data.get('menu')
-        menu_germen_data = request.data.get('menu_germen')
-        addon_data = request.data.get('addon')
+        data = json.loads(request.body)
+        menu_data = data.get("menu")  # Get the value of the "menu" key
+        menu_germen_data = data.get("menu_germen")
+        addon_data = data.get("addon")
 
         # Ensure that the keys in data match the field names of your models
-        menu_instances = Menu.objects.filter(**menu_data)
         if isinstance(menu_data,str):
             menu_instances = Menu.objects.filter(name=menu_data)
         else:
             menu_instances = Menu.objects.filter(**menu_data)
-        menu_germen_instances = Menu_germen.objects.filter(**menu_germen_data)
         if isinstance(menu_germen_data,str):
             menu_germen_instances = Menu_germen.objects.filter(name=menu_germen_data)
         else:
