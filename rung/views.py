@@ -333,9 +333,9 @@ def get_instance(model_class, data):
 def add_addon_food(request):
     try:
         data = json.loads(request.body)
-        menu_data = request.data.get('menu')
-        menu_germen_data = request.data.get('menu_germen')
-        addon_data = request.data.get('addon')
+        menu_data = data.get('menu')
+        menu_germen_data = data.get('menu_germen')
+        addon_data =data.get('addon')
 
         menu_instances = get_instance(Menu, menu_data)
         menu_germen_instances = get_instance(Menu_germen, menu_germen_data)
