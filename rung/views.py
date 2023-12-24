@@ -334,13 +334,11 @@ def add_addon_food(request):
         menu_germen_instances = Menu_germen.objects.filter(**menu_germen_data)
         addon_instances = Addon.objects.filter(**addon_data)
 
-        if not menu_instances.exists() or not menu_germen_instances.exists() or not addon_instances.exists():
-            return Response({'error': 'One or more instances do not exist.'}, status=status.HTTP_404_NOT_FOUND)
-
         menu_id = menu_instances.first().id
         menu_germen_id = menu_germen_instances.first().id
         addon_id = addon_instances.first().id
         print(menu_id)
+
         serializer = AddOnFoodSerializer(data={
             'menu_id': menu_id,
             'menu_germen_id': menu_germen_id,
