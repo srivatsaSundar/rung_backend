@@ -351,10 +351,9 @@ def add_addon_food(request):
         add_price = addon_instances.first().price
 
         serializer = AddOnFoodSerializer(data={
-            'menu_id': menu_id,
-            'menu_germen_id': menu_germen_id,
-            'food_id': addon_id,
-            'add_price': add_price,
+            'menu':{'name':menu_id},
+            'menu_germen':{'name':menu_germen_id} ,
+            'food_id': {'name': addon_id,'price':add_price},
         })
         print(serializer)
         if serializer.is_valid():
