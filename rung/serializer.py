@@ -30,9 +30,26 @@ class AddOnFoodSerializer(serializers.ModelSerializer):
     menu_germen = MenuGermenSerializer()
     food = AddonSerializer()
 
+    def create(self, validated_data):
+        menu_data = validated_data.pop('menu')
+        menu_germen_data = validated_data.pop('menu_germen')
+        food_data = validated_data.pop('food_id')
+
+        menu_instance = Menu.objects.get(id=menu_data['id'])
+        menu_germen_instance = Menu_germen.objects.get(id=menu_germen_data['id'])
+        food_instance = Addon.objects.get(id=food_data['id'])
+
+        # Assuming you have a model named AddOnFood
+        addon_food_instance = AddOn_food.objects.create(
+            menu=menu_instance,
+            menu_germen=menu_germen_instance,
+            food_id=food_instance
+        )
+
+        return addon_food_instance
     class Meta:
         model = AddOn_food
-        exclude = ['id']
+        fields = '__all__'
 
 class AddOnDrinkSerializer(serializers.ModelSerializer):
     menu = MenuSerializer()
