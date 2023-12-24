@@ -353,7 +353,7 @@ def add_addon_food(request):
         serializer = AddOnFoodSerializer(data={
             'menu':{'name':menu_id},
             'menu_germen':{'name':menu_germen_id} ,
-            'AddOn_food': {'name': addon_id,'price':add_price},
+            'food': {'name': addon_id,'price':add_price},
         })
         print(serializer)
         if serializer.is_valid():
