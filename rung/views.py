@@ -340,10 +340,7 @@ def add_addon_food(request):
         menu_id = menu_instances.first().id
         menu_germen_id = menu_germen_instances.first().id
         addon_id = addon_instances.first().id
-
-        # Include request.data without 'menu', 'menu_germen', and 'addon' keys
-        serializer_data = {key: value for key, value in request.data.items() if key not in ['menu', 'menu_germen', 'addon']}
-        print(serializer_data)
+        print(menu_id)
         serializer = AddOnFoodSerializer(data={
             'menu_id': menu_id,
             'menu_germen_id': menu_germen_id,
