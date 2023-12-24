@@ -28,5 +28,4 @@ urlpatterns = [
     path('holiday/', views.holiday, name='holiday'),
     path('add_holiday/', views.add_holiday, name='add_holiday'),
     path('delete_holiday/<str:start_data>/', views.delete_holiday, name='delete_holiday'),
-
 ]

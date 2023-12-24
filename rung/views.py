@@ -343,13 +343,13 @@ def add_addon_food(request):
 
         # Include request.data without 'menu', 'menu_germen', and 'addon' keys
         serializer_data = {key: value for key, value in request.data.items() if key not in ['menu', 'menu_germen', 'addon']}
+        print(serializer_data)
         serializer = AddOnFoodSerializer(data={
             'menu_id': menu_id,
             'menu_germen_id': menu_germen_id,
             'food_id': addon_id,
-            **serializer_data
         })
-
+        print(serializer)
         if serializer.is_valid():
             serializer.save()
             response_data = {'message': 'New menu data successfully added.'}
