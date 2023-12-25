@@ -323,11 +323,7 @@ def delete_add_on(request, name):
     except Addon.DoesNotExist:
         return Response({'error': 'Menu data not found.'}, status=status.HTTP_404_NOT_FOUND)
     
-def get_instance(model_class, data):
-    if isinstance(data, str):
-        return model_class.objects.filter(name=data)
-    else:
-        return model_class.objects.filter(**data)
+
     
 @api_view(['POST'])
 def add_addon_food(request):
@@ -335,29 +331,32 @@ def add_addon_food(request):
         data = json.loads(request.body)
         menu_data = data.get('menu')
         menu_germen_data = data.get('menu_germen')
-        addon_data =data.get('addon')
+        addon_data = data.get('addon')
 
-        menu_instances = get_instance(Menu, menu_data)
-        menu_germen_instances = get_instance(Menu_germen, menu_germen_data)
-        addon_instances = get_instance(Addon, addon_data)
-
-        menu_id = menu_instances.first().id if menu_instances else None
-        menu_germen_id = menu_germen_instances.first().id if menu_germen_instances else None
-        addon_id = addon_instances.first().id if addon_instances else None
-
-        serializer = AddOnFoodSerializer(data={
-            'menu_id': menu_id,
-            'menu_germen_id': menu_germen_id,
-            'food_id': addon_id,
-        })
-
-        if serializer.is_valid():
-            serializer.save()
-            response_data = {'message': 'New menu data successfully added.'}
-            return Response(response_data, status=status.HTTP_201_CREATED)
+        # Ensure that the keys in data match the field names of your models
+        if isinstance(menu_data,str):
+            menu_instances = Menu.objects.filter(name=menu_data)
         else:
-            print("Serializer errors:", serializer.errors)
-            return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            menu_instances = Menu.objects.filter(**menu_data)
+        if isinstance(menu_germen_data,str):
+            menu_germen_instances = Menu_germen.objects.filter(name=menu_germen_data)
+        else:
+            menu_germen_instances = Menu_germen.objects.filter(**menu_germen_data)
+        if isinstance(addon_data,str):
+            addon_instances = Addon.objects.filter(name=addon_data)
+        else:
+            addon_instances = Addon.objects.filter(**addon_data)
+
+        menu_id = menu_instances.first().id
+        menu_germen_id = menu_germen_instances.first().id
+        addon_id = addon_instances.first().id
+
+        serializer = AddOn_food.objects.create(menu_id=menu_id,
+             menu_germen_id=menu_germen_id,
+            food_id=addon_id)
+        serializer.save()
+        response_data = {'message': 'New menu data successfully added.'}
+        return Response(response_data, status=status.HTTP_201_CREATED)
 
     except Exception as e:
         print("Exception:", e)
