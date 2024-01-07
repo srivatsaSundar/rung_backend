@@ -324,7 +324,6 @@ def delete_add_on(request, name):
         return Response({'error': 'Menu data not found.'}, status=status.HTTP_404_NOT_FOUND)
     
 
-    
 @api_view(['POST'])
 def add_addon_food(request):
     try:
@@ -374,19 +373,49 @@ def delete_addon_food(request, id):
 
 @api_view(['POST'])
 def add_postal_code(request, postal_code=None):
-    existing_instance = countrycode.objects.filter(postal_code=request.data.get('postal_code')).first()
+    try:
+        if postal_code is not None:
+            # Check if a record with the provided postal code exists
+            instance = countrycode.objects.filter(postal_code=postal_code).first()
+            serializer = CountryCodeSerializer(instance, data=request.data, partial=True)
 
-    if existing_instance:
-        return Response({'error': 'Postal code already exists.'}, status=status.HTTP_409_CONFLICT)
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'Postal code data updated successfully.'}
+                return Response(response_data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    serializer = CountryCodeSerializer(data=request.data)
+        # If postal_code is None, check the request data for the postal code
+        postal_code_value = request.data.get('postal_code')
+        if postal_code_value is None:
+            return Response({'error': 'Postal code is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if serializer.is_valid():
-        serializer.save()
-        response_data = {'message': 'Data successfully added.'}
-        return Response(response_data, status=status.HTTP_201_CREATED)
-    
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # Check if a record with the provided postal code exists
+        instance = countrycode.objects.filter(postal_code=postal_code_value).first()
+
+        if instance:
+            # If the record exists, update it
+            serializer = CountryCodeSerializer(instance, data=request.data, partial=True)
+
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'Postal code data updated successfully.'}
+                return Response(response_data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            # If the record doesn't exist, create a new one
+            serializer = CountryCodeSerializer(data=request.data)
+
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'New postal code data successfully added.'}
+                return Response(response_data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
 def postal_change_availability(request, postal_code):
@@ -414,3 +443,82 @@ def delete_postal_code(request, postal_code):
     instance.delete()
     response_data = {'message': 'Postal code successfully deleted.'}
     return Response(response_data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def discount_coupon_list(request):
+    # if request.method == 'GET':
+        discount_coupons = discount_coupon.objects.all()
+        serializer = DiscountCouponSerializer(discount_coupons, many=True)
+        return Response(serializer.data)
+
+@api_view(['POST'])
+def add_discount_coupon(request,coupon_code=None):
+    try:
+        if coupon_code is not None:
+            # Check if a record with the provided coupon code exists
+            instance = discount_coupon.objects.filter(coupon_code=coupon_code).first()
+            serializer = DiscountCouponSerializer(instance, data=request.data, partial=True)
+
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'Coupon data updated successfully.'}
+                return Response(response_data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        # If coupon_code is None, check the request data for the coupon code
+        coupon_code_value = request.data.get('coupon_code')
+        if coupon_code_value is None:
+            return Response({'error': 'Coupon code is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Check if a record with the provided coupon code exists
+        instance = discount_coupon.objects.filter(coupon_code=coupon_code_value).first()
+
+        if instance:
+            # If the record exists, update it
+            serializer = DiscountCouponSerializer(instance, data=request.data, partial=True)
+
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'Coupon data updated successfully.'}
+                return Response(response_data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            # If the record doesn't exist, create a new one
+            serializer = DiscountCouponSerializer(data=request.data)
+
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'New coupon data successfully added.'}
+                return Response(response_data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(['DELETE'])
+def delete_discount_coupon(request, coupon_code):
+    try:
+        instance = discount_coupon.objects.get(coupon_code=coupon_code)
+    except discount_coupon.DoesNotExist:
+        return Response({'error': 'Coupon code not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    instance.delete()
+    response_data = {'message': 'Coupon code successfully deleted.'}
+    return Response(response_data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def discount_coupon_availability(request, coupon_code):
+    try:
+        instance = discount_coupon.objects.get(coupon_code=coupon_code)
+    except discount_coupon.DoesNotExist:
+        return Response({'error': 'Coupon code not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = DiscountCouponSerializer(instance, data=request.data, partial=True)
+
+    if serializer.is_valid():
+        serializer.save()
+        response_data = {'message': 'Availability successfully updated.'}
+        return Response(response_data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

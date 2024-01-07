@@ -88,6 +88,7 @@ class discount_coupon(models.Model):
     coupon_name= models.CharField(max_length=200)
     coupon_description = models.TextField(null=True, blank=True)
     coupon_expiry_date = models.DateField(null=True, blank=True)
+    available = models.BooleanField(default=True)
 
     def __str__(self):
         return self.coupon_code
@@ -103,6 +104,7 @@ class contact_us(models.Model):
     
 class countrycode(models.Model):
     postal_code = models.CharField(max_length=200)
+    price= models.FloatField(default=0,null=True)
     available = models.BooleanField(default=True)
 
     def __str__(self):

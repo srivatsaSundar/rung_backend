@@ -28,4 +28,8 @@ urlpatterns = [
     path('holiday/', views.holiday, name='holiday'),
     path('add_holiday/', views.add_holiday, name='add_holiday'),
     path('delete_holiday/<str:start_data>/', views.delete_holiday, name='delete_holiday'),
+    path('discount_coupon_list/', views.discount_coupon_list, name='discount_coupon_list'),
+    path('add_discount_coupon/', views.add_discount_coupon, name='add_discount_coupon'),
+    path('delete_discount_coupon/<str:coupon_code>/', views.delete_discount_coupon, name='delete_discount_coupon'),
+    path('discount_coupon_availability/<str:coupon_code>/', views.discount_coupon_availability, name='discount_coupon_availability'),
 ]
