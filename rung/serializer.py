@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Menu, AddOn_food, AddOn_drink, Order, discount_coupon, contact_us,Addon,Menu_germen,countrycode,holiday_notes
+from .models import *
 
 class MenuSerializer(serializers.ModelSerializer):
     class Meta:
