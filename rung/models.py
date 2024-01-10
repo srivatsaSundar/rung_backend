@@ -117,3 +117,12 @@ class holiday_notes(models.Model):
 
     def __str__(self):
         return self.start_data
+    
+class shop_time(models.Model):
+    shop_opening_time = models.TextField(null=True, blank=True)
+    shop_closing_time = models.TextField(null=True, blank=True)
+    shop_delivery_opening_time = models.TextField(null=True, blank=True)
+    shop_delivery_closing_time = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.start_data

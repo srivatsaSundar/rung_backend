@@ -2,7 +2,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .models import Menu, AddOn_food, AddOn_drink, Order,discount_coupon, contact_us,Addon,Menu_germen,countrycode,holiday_notes
+from .models import Menu, AddOn_food, AddOn_drink, Order,discount_coupon, contact_us,Addon,Menu_germen,countrycode,holiday_notes,shop_time
 from .serializer import *
 from .mail_utils import schedule_order_email
 import json 
@@ -522,3 +522,56 @@ def discount_coupon_availability(request, coupon_code):
         response_data = {'message': 'Availability successfully updated.'}
         return Response(response_data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def shop_time_list(request):
+    # if request.method == 'GET':
+        shop_time = shop_time.objects.all()
+        serializer = ShopTimeSerializer(shop_time, many=True)
+        return Response(serializer.data)
+
+@api_view(['POST'])
+def add_shop_time(request, value=None):
+    try:
+        if value is not None:
+            # Check if a record with the provided name exists
+            instance = shop_time.objects.get(name=value)
+            serializer = ShopTimeSerializer(instance, data=request.data, partial=True)
+
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'Shop time data updated successfully.'}
+                return Response(response_data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # If value is None, check the request data for the name
+        name = request.data.get('name')
+        if name is None:
+            return Response({'error': 'Name is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check if a record with the provided name exists
+        instance = shop_time.objects.filter(name=name).first()
+
+        if instance:
+            # If the record exists, update it
+            serializer = ShopTimeSerializer(instance, data=request.data, partial=True)
+
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'Shop time data updated successfully.'}
+                return Response(response_data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            # If the record doesn't exist, create a new one
+            serializer = ShopTimeSerializer(data=request.data)
+
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'New shop time data successfully added.'}
+                return Response(response_data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

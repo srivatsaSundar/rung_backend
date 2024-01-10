@@ -84,3 +84,8 @@ class HolidaySerializer(serializers.ModelSerializer):
     class Meta:
         model = holiday_notes
         fields = '__all__'
+
+class ShopTimeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = shop_time
+        fields = '__all__'
