@@ -525,10 +525,9 @@ def discount_coupon_availability(request, coupon_code):
 
 @api_view(['GET'])
 def shop_time_list(request):
-    # if request.method == 'GET':
-        shop_time = shop_time.objects.all()
-        serializer = ShopTimeSerializer(shop_time, many=True)
-        return Response(serializer.data)
+    shop_times = shop_time.objects.all()
+    serializer = ShopTimeSerializer(shop_times, many=True)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 def add_shop_time(request, value=None):
