@@ -564,7 +564,6 @@ def add_shop_time(request, value=None):
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
-            # If the record doesn't exist, create a new one
             serializer = ShopTimeSerializer(data=request.data)
 
             if serializer.is_valid():
