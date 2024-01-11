@@ -534,7 +534,7 @@ def add_shop_time(request, value=None):
     try:
         if value is not None:
             # Check if a record with the provided name exists
-            instance = shop_time.objects.get(name=value)
+            instance = shop_time.objects.get(shop_opening_time=value)
             serializer = ShopTimeSerializer(instance, data=request.data, partial=True)
 
             if serializer.is_valid():
