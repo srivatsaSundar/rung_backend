@@ -534,7 +534,7 @@ def add_shop_time(request, value=None):
     try:
         if value is not None:
             # Check if a record with the provided name exists
-            instance = shop_time.objects.filter(shop_opening_time=value).first()
+            instance = shop_time.objects.filter(id=value).first()
             serializer = ShopTimeSerializer(instance, data=request.data, partial=True)
 
             if serializer.is_valid():
@@ -545,12 +545,12 @@ def add_shop_time(request, value=None):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         # If value is None, check the request data for the name
-        name = request.data.get('shop_opening_time')
+        name = request.data.get('id')
         if name is None:
             return Response({'error': 'Name is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Check if a record with the provided name exists
-        instance = shop_time.objects.filter(shop_opening_time=name).first()
+        instance = shop_time.objects.filter(id=name).first()
 
         if instance:
             # If the record exists, update it
