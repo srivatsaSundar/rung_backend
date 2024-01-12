@@ -11,6 +11,7 @@ urlpatterns = [
     path('view_addon/',views.view_addon,name='view_addon'),
     path('discount_coupon/', views.discount_coupon_list, name='discount_coupon_list'),
     path('contact_us/', views.create_contact_us, name='create_contact_us'),
+    path('get_contact_us/', views.get_contact_us, name='get_contact_us'),
     path('all_values/', views.all_values, name='all_values'),
     path('add_menu/', views.add_menu, name='add_menu'),
     path('menu_availability/<str:name>/', views.menu_availability, name='menu_availability'),

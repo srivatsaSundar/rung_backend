@@ -63,6 +63,12 @@ def create_contact_us(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
+def get_contact_us(request):
+    contact_us = contact_us.objects.all()
+    serializer = ContactUsSerializer(contact_us, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
 def postal_code(request):
     postal_codes = countrycode.objects.filter(available=True)
     serializer = CountryCodeSerializer(postal_codes, many=True)
