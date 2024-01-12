@@ -94,6 +94,7 @@ class discount_coupon(models.Model):
         return self.coupon_code
 
 class contact_us(models.Model):
+    date= models.DateTimeField(auto_now_add=True, null=True, blank=True)
     name = models.CharField(max_length=200)
     email = models.CharField(max_length=200)
     phone_number = models.CharField(max_length=200)
