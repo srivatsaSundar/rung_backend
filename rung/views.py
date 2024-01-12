@@ -64,8 +64,8 @@ def create_contact_us(request):
 
 @api_view(['GET'])
 def get_contact_us(request):
-    contact_us = contact_us.objects.all()
-    serializer = ContactUsSerializer(contact_us, many=True)
+    contact = contact_us.objects.all()
+    serializer = ContactUsSerializer(contact, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
