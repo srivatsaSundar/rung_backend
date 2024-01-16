@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from .models import Menu, AddOn_food, AddOn_drink, Order,discount_coupon, contact_us,Addon,Menu_germen,countrycode,holiday_notes,shop_time
 from .serializer import *
-from .mail_utils import schedule_order_email
+from .mail_utils import schedule_order_email,schedule_contact_email
 import json 
 
 @api_view(['GET'])
@@ -59,6 +59,8 @@ def create_contact_us(request):
     serializer = ContactUsSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
+        contact_us = serializer.instance
+        schedule_contact_email(contact_us)
         return Response(status=status.HTTP_204_NO_CONTENT)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
