@@ -37,12 +37,9 @@ def schedule_order_email(order):
     Args:
         order: The Order instance for which to send an email.
     """
-    to_email =["yuti-m@hotmail.com", "Y.mahendran@gmail.com"]
+    # to_email =["yuti-m@hotmail.com", "Y.mahendran@gmail.com"]
+    to_email=["srivatsas0503@gmail.com"]
     cc_email=order.email
-    # to_email = ["vatsasundar0503@gmail.com"]
-    # cc_email = ["srivatsas0503@gmail.com"]
-    # to_email = order.email
-    # cc_email ="srivatsas0503@gmail.com"
 
     subject = "Order Details from Mr Rung"
     body = ""
@@ -112,18 +109,14 @@ def schedule_contact_email(contact):
         message: The Message instance for which to send an email.
     """
     to_email =["yuti-m@hotmail.com", "Y.mahendran@gmail.com"]
-    # to_email = ["vatsasundar0503@gmail.com"]
 
     subject = "Contact submitted to Mr Rung"
     body = ""
-    # Construct the email body based on the database information
     body += f"Contact Details\n\n"
     body += f"**Name : ** {contact.name}\n\n"
     body += f"**Email : ** {contact.email}\n\n"
     body += f"**Message : ** {contact.message}\n\n"
     body += f"Tel. : {contact.phone_number}\n\n"
-
-   
 
     send_contact_email(to_email, subject, body)
 
