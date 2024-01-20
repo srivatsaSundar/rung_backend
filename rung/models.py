@@ -77,6 +77,8 @@ class Order(models.Model):
     order_date = models.DateTimeField(auto_now_add=True)
     order_status = models.CharField(max_length=200, null=True, blank=True, choices=order_status_choices)
     cart= models.CharField(max_length=1000,null=True,blank=True)
+    coupon_code_amount=models.CharField(max_length=1000,null=True,blank=True)
+    delivery_charges=models.CharField(max_length=1000,null=True,blank=True)
     mail_sent = models.BooleanField(default=False)
     
     def __str__(self):
