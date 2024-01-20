@@ -64,9 +64,9 @@ def schedule_order_email(order):
         body += item_line
 
     # Add total price
-    body+=  f"{order.delivery_charges} CHF\n"
-    body+=  f"{order.coupon_code}"
-    body+=  f"{order.coupon_code_amount} CHF\n"
+    body+=  f"Zustellgebühr : {order.delivery_charges} CHF\n"
+    body+=  f"Rabattcode : {order.coupon_code}\n\n"
+    body+=  f"Rabattbetrag : {order.coupon_code_amount} CHF\n"
     body += f"\n**Gesamt: {order.total_price} CHF**\n\n"
     # Additional information
 
