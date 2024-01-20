@@ -60,10 +60,11 @@ def schedule_order_email(order):
         item_name = item["item_name"]
         quantity = item["quantity"]
         cost = item["cost"]
-        item_line = f"{quantity}x {item_name}\t{cost:.2f} CHF\n"
+        item_line = f"{quantity}x {item_name}\t{cost:.2f} CHF\n\n"
         body += item_line
 
     # Add total price
+    body+=  f"\n\n"
     body+=  f"Zustellgebühr : {order.delivery_charges} CHF\n"
     body+=  f"Rabattcode : {order.coupon_code}\n\n"
     body+=  f"Rabattbetrag : {order.coupon_code_amount} CHF\n"
