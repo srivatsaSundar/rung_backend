@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-y048*3@_86f$x6o)yx9clfasi-!@l(k+hmaee@atvblqg28=&6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS =["*",'https://front-end-rung.vercel.app','https://mrrung.com/','http://localhost:3000','https://front-end-rung-git-main-srivatsasundar.vercel.app/']
+ALLOWED_HOSTS =["*",'https://mrrung.com/','http://localhost:3000','https://www.mrrung.com','https://dev3807.dc3x4x4uqkce1.amplifyapp.com']
 
 
 # Application definition
