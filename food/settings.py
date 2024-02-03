@@ -30,7 +30,6 @@ DEBUG = True
 
 ALLOWED_HOSTS =["*",'https://mrrung.com/','http://localhost:3000','https://www.mrrung.com','https://dev3807.dc3x4x4uqkce1.amplifyapp.com']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -146,8 +145,4 @@ REST_FRAMEWORK = {
 
 CORS_ALLOW_ALL_ORIGINS = False
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    "https://front-end-rung.vercel.app",
-    'https://mrrung.com',
-]
+CORS_ALLOWED_ORIGINS = ["*",'https://mrrung.com/','http://localhost:3000','https://www.mrrung.com','https://dev3807.dc3x4x4uqkce1.amplifyapp.com']
