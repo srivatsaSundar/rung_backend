@@ -145,4 +145,4 @@ REST_FRAMEWORK = {
 
 CORS_ALLOW_ALL_ORIGINS = False
 
-CORS_ALLOWED_ORIGINS = ["*",'https://mrrung.com/','http://localhost:3000','https://www.mrrung.com','https://dev3807.dc3x4x4uqkce1.amplifyapp.com']
+CORS_ALLOWED_ORIGINS = ['https://mrrung.com/','http://localhost:3000','https://www.mrrung.com','https://dev3807.dc3x4x4uqkce1.amplifyapp.com']
