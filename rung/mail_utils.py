@@ -37,8 +37,8 @@ def schedule_order_email(order):
     Args:
         order: The Order instance for which to send an email.
     """
-    #to_email =["yuti-m@hotmail.com", "Y.mahendran@gmail.com"]
-    to_email=["vatsasundar0503@gmail.com"]
+    to_email =["yuti-m@hotmail.com", "Y.mahendran@gmail.com"]
+    #to_email=["vatsasundar0503@gmail.com"]
     cc_email=order.email
 
     subject = "Order Details from Mr Rung"
@@ -112,8 +112,8 @@ def schedule_contact_email(contact):
     Args:
         message: The Message instance for which to send an email.
     """
-    #to_email =["yuti-m@hotmail.com", "Y.mahendran@gmail.com"]
-    to_email=["vatsasundar0503@gmail.com"]
+    to_email =["yuti-m@hotmail.com", "Y.mahendran@gmail.com"]
+    #to_email=["vatsasundar0503@gmail.com"]
 
     subject = "Contact submitted to Mr Rung"
     body = ""
