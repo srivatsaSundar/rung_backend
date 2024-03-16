@@ -52,9 +52,9 @@ def order_list(request):
     return Response(serializers.data)
 
 @api_view(['DELETE'])
-def delete_order_list(request,cart,delivery_date,person_name):
+def delete_order_list(request,id):
     try:
-        holiday_instance = Order.objects.get(cart=cart,delivery_date=delivery_date,person_name=person_name)
+        holiday_instance = Order.objects.get(id=id)
         holiday_instance.delete()
         return Response({'message': 'Order data deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
     except holiday_notes.DoesNotExist:
