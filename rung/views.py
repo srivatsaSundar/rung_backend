@@ -1,8 +1,7 @@
-# from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .models import Menu, AddOn_food, AddOn_drink, Order,discount_coupon, contact_us,Addon,Menu_germen,countrycode,holiday_notes,shop_time
+from .models import *
 from .serializer import *
 from .mail_utils import schedule_order_email,schedule_contact_email
 import json 
@@ -39,19 +38,40 @@ def create_order(request):
     serializer = OrderSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        order = serializer.instance  # Get the created order instance
-        # Check if mail_sent is False and schedule the email
+        order = serializer.instance
         if not order.mail_sent:
             schedule_order_email(order)
             
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def order_list(request):
+    orders=Order.objects.all()
+    serializers=OrderSerializer(orders,many=True)
+    return Response(serializers.data)
+
+@api_view(['DELETE'])
+def delete_order_list(request,cart,delivery_date,person_name):
+    try:
+        holiday_instance = Order.objects.get(cart=cart,delivery_date=delivery_date,person_name=person_name)
+        holiday_instance.delete()
+        return Response({'message': 'Order data deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+    except holiday_notes.DoesNotExist:
+        return Response({'error': 'Order not found.'}, status=status.HTTP_404_NOT_FOUND)
     
 @api_view(['GET'])
 def discount_coupon_list(request):
     # if request.method == 'GET':
         discount_coupons = discount_coupon.objects.all()
         serializer = DiscountCouponSerializer(discount_coupons, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET'])
+def discount_coupon_list_germen(request):
+    # if request.method == 'GET':
+        discount_coupons = discount_coupon.objects.all()
+        serializer = DiscountCouponGermenSerializer(discount_coupons, many=True)
         return Response(serializer.data)
 
 @api_view(['POST'])
@@ -69,6 +89,15 @@ def get_contact_us(request):
     contact = contact_us.objects.all()
     serializer = ContactUsSerializer(contact, many=True)
     return Response(serializer.data)
+
+@api_view(['DELETE'])
+def delete_contact_us(request,message):
+    try:
+        holiday_instance = contact_us.objects.get(message=message)
+        holiday_instance.delete()
+        return Response({'message': 'contact us data deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+    except holiday_notes.DoesNotExist:
+        return Response({'error': 'contact us not found.'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
 def postal_code(request):

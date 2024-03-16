@@ -70,6 +70,11 @@ class DiscountCouponSerializer(serializers.ModelSerializer):
         model = discount_coupon
         fields = '__all__'
 
+class DiscountCouponGermenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = discount_coupon_germen
+        fields = '__all__'
+
 class ContactUsSerializer(serializers.ModelSerializer):
     class Meta:
         model = contact_us

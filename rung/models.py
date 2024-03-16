@@ -94,6 +94,17 @@ class discount_coupon(models.Model):
 
     def __str__(self):
         return self.coupon_code
+    
+class discount_coupon_germen(models.Model):
+    coupon_code = models.CharField(max_length=200)
+    discount_percentage = models.IntegerField(default=0)
+    coupon_name= models.CharField(max_length=200)
+    coupon_description = models.TextField(null=True, blank=True)
+    coupon_expiry_date = models.DateField(null=True, blank=True)
+    available = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.coupon_code
 
 class contact_us(models.Model):
     date= models.DateTimeField(auto_now_add=True, null=True, blank=True)
