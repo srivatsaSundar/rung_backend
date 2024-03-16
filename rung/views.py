@@ -603,8 +603,6 @@ def add_shop_time(request, value=None):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
-    @api_view(['GET'])
 
 @api_view(['POST'])
 def add_discount_coupon_germen(request,coupon_code=None):
@@ -656,9 +654,24 @@ def add_discount_coupon_germen(request,coupon_code=None):
 def delete_discount_coupon_germen(request, coupon_code):
     try:
         instance = discount_coupon_germen.objects.get(coupon_code=coupon_code)
-    except discount_coupon.DoesNotExist:
+    except discount_coupon_germen.DoesNotExist:
         return Response({'error': 'Coupon code not found.'}, status=status.HTTP_404_NOT_FOUND)
 
     instance.delete()
     response_data = {'message': 'Coupon code successfully deleted.'}
     return Response(response_data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def discount_coupon_germen_availability(request, coupon_code):
+    try:
+        instance = discount_coupon_germen.objects.get(coupon_code=coupon_code)
+    except discount_coupon_germen.DoesNotExist:
+        return Response({'error': 'Coupon code not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = DiscountCouponGermenSerializer(instance, data=request.data, partial=True)
+
+    if serializer.is_valid():
+        serializer.save()
+        response_data = {'message': 'Availability successfully updated.'}
+        return Response(response_data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

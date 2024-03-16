@@ -39,4 +39,7 @@ urlpatterns = [
     path('discount_coupon_availability/<str:coupon_code>/', views.discount_coupon_availability, name='discount_coupon_availability'),
     path('add_shop_time/', views.add_shop_time, name='add_shop_time'),
     path('shop_time_list/', views.shop_time_list, name='shop_time_list'),
+    path('add_discount_coupon_germen/', views.add_discount_coupon_germen, name='add_discount_coupon'),
+    path('delete_discount_coupon_germen/<str:coupon_code>/', views.delete_discount_coupon_germen, name='delete_discount_coupon'),
+    path('discount_coupon_germen_availability/<str:coupon_code>/', views.discount_coupon_germen_availability, name='discount_coupon_availability'),
 ]
