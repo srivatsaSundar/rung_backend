@@ -70,7 +70,7 @@ def discount_coupon_list(request):
 @api_view(['GET'])
 def discount_coupon_list_germen(request):
     # if request.method == 'GET':
-        discount_coupons = discount_coupon.objects.all()
+        discount_coupons = discount_coupon_germen.objects.all()
         serializer = DiscountCouponGermenSerializer(discount_coupons, many=True)
         return Response(serializer.data)
 
