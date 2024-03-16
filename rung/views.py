@@ -603,3 +603,62 @@ def add_shop_time(request, value=None):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    @api_view(['GET'])
+
+@api_view(['POST'])
+def add_discount_coupon_germen(request,coupon_code=None):
+    try:
+        if coupon_code is not None:
+            # Check if a record with the provided coupon code exists
+            instance = discount_coupon_germen.objects.filter(coupon_code=coupon_code).first()
+            serializer = DiscountCouponGermenSerializer(instance, data=request.data, partial=True)
+
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'Coupon data updated successfully.'}
+                return Response(response_data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        # If coupon_code is None, check the request data for the coupon code
+        coupon_code_value = request.data.get('coupon_code')
+        if coupon_code_value is None:
+            return Response({'error': 'Coupon code is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Check if a record with the provided coupon code exists
+        instance = discount_coupon_germen.objects.filter(coupon_code=coupon_code_value).first()
+
+        if instance:
+            # If the record exists, update it
+            serializer = DiscountCouponGermenSerializer(instance, data=request.data, partial=True)
+
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'Coupon data updated successfully.'}
+                return Response(response_data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            # If the record doesn't exist, create a new one
+            serializer = DiscountCouponGermenSerializer(data=request.data)
+
+            if serializer.is_valid():
+                serializer.save()
+                response_data = {'message': 'New coupon data successfully added.'}
+                return Response(response_data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(['DELETE'])
+def delete_discount_coupon_germen(request, coupon_code):
+    try:
+        instance = discount_coupon_germen.objects.get(coupon_code=coupon_code)
+    except discount_coupon.DoesNotExist:
+        return Response({'error': 'Coupon code not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    instance.delete()
+    response_data = {'message': 'Coupon code successfully deleted.'}
+    return Response(response_data, status=status.HTTP_200_OK)
