@@ -60,7 +60,8 @@ def schedule_order_email(order):
         item_name = item["item_name"]
         quantity = item["quantity"]
         cost = item["cost"]
-        item_line = f"{quantity}x {item_name}\t{cost:.2f} CHF\n\n"
+        total_cost = quantity * cost
+        item_line = f"{quantity}x {item_name}\t{total_cost:.2f} CHF\n\n"
         body += item_line
 
     # Add total price
