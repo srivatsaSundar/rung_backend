@@ -57,15 +57,6 @@ def schedule_order_email(order):
     cart_str = order.cart
     cart = json.loads(cart_str)
     print(cart)
-    total_item_cost = 0
-
-    for item in cart:
-        quantity = item["quantity"]
-        cost = item["cost"]
-        total_item_cost += quantity * cost
-
-    total_price = total_item_cost + order.delivery_charges - order.coupon_code_amount
-
     for item in cart:
         item_name = item["item_name"]
         quantity = item["quantity"]
@@ -79,7 +70,7 @@ def schedule_order_email(order):
     body+=  f"Liefergebuhr : {order.delivery_charges} CHF\n\n"
     body+=  f"Rabattcode : {order.coupon_code}\n"
     body+=  f"Rabattbetrag : {order.coupon_code_amount} \n"
-    body +=  f"\n**Gesamt: {total_price} CHF**\n\n"
+    body += f"\n*Gesamt: {order.total_price} CHF*\n\n"
     # Additional information
 
     body += f"Order Date: {order.order_date}\n\n"
